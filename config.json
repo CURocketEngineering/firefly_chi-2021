@@ -1,0 +1,15 @@
+{
+    "name": "Default Config",
+    "DEBUG": False,
+    "test": False,
+    "test_file": "",
+    "comm": True,
+
+    "parachute_charge_time": 0.5,
+    "apogee_delay": 0,
+    "main_altitude": 1500,
+    "main_delay": 0,
+
+    "flip_h": False,
+    "flip_v": False,
+}

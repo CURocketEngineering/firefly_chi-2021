@@ -1,4 +1,4 @@
-
+"""Perform communication related functions."""
 
 class Comm:
     def __init__(self):

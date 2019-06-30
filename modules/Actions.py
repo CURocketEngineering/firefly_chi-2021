@@ -1,82 +1,60 @@
-# Actions.py
+"""Perform actions of the rocket."""
+
+from os import system
 
 def halt():
-    '''
-    Do nothing
-    '''
-    return
+    '''Do nothing.'''
+    return None
 
 def idle():
-    '''
-    Do nothing
-    '''
-    return
+    '''Do nothing.'''
+    return None
 
 def arm():
-    '''
-    Do nothing
-    '''
-    return
+    '''Do nothing.'''
+    return None
 
 def ignite():
-    '''
-    Ignite the rocket
-    '''
+    '''Do nothing.'''
     print("PASS: Not finished")
-    return
+    return None
 
 def burn():
-    '''
-    Do nothing
-    '''
-    return
+    '''Do nothing.'''
+    return None
 
 def coast():
-    '''
-    Do nothing
-    '''
-    return
+    '''Use air-stoppers if necessary.'''
+    return None
 
 def apogee():
-    '''
-    Eject parachute
-    '''
-    return
+    '''Eject parachute.'''
+    return None 
 
 def eject():
-    '''
-    Eject other parachute
-    '''
-    return
+    '''Eject other parachute.'''
+    return None
 
 def fall():
-    '''
-    Do nothing
-    '''
+    '''Do nothing.'''
     return
 
 def recover():
-    '''
-    Do nothing
-    '''
+    '''Do nothing.'''
     return
 
 def wait():
-    '''
-    Do nothing
-    '''
+    '''Do nothing.'''
     return
 
 def test():
-    '''
-    IDK
-    '''
+    '''Do nothing.'''
     return
 
 def restart():
-    import os
-    os.system('reboot now') 
+    '''Restart the system.'''
+    system('reboot now') 
 
 def shutdown():
-    import os
-    os.system("shutdown -s")
+    '''Shutdown the system.'''
+    system("shutdown -s")
