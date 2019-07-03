@@ -1,6 +1,6 @@
-"""Run the main avionics process for data collection, telemetry, and 
-parachutes.
+"""Run the main avionics process.
 
+Used for data collection, telemetry, and  parachutes.
 """
 
 from modules import Comm
@@ -29,17 +29,17 @@ actions = {
 }
 
 # Initialization
-rocket_state = "IDLE" # State of rocket
-file_name = "output.json" # Name for recording json
-data = DataStruct.DataStruct(file_name) # Avionics data
-comm = Comm.Comm() # Communication channel
-conf = Config.Config() # Configuration data
+rocket_state = "IDLE"  # State of rocket
+file_name = "output.json"  # Name for recording json
+data = DataStruct.DataStruct(file_name)  # Avionics data
+comm = Comm.Comm()  # Communication channel
+conf = Config.Config()  # Configuration data
 
 while (not shutdown):
-    data.read_sensors(conf) # Update sensors
-     
+    data.read_sensors(conf)  # Update sensors
+
     rocket_state = data.process(rocket_state)
-    rocket_state = comm.read_comm() # Update state from comm
+    rocket_state = comm.read_comm()  # Update state from comm
     comm.send(data.to_json(rocket_state))
     data.write_out(rocket_state)
 
