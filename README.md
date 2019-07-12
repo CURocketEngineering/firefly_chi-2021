@@ -86,9 +86,12 @@ higher-order files and understand what they actually do. This also implies
 * XBEE *Todo*
 ### Hardware
 * Install raspbian on a raspberry pi (ideally headless)
-* Clone this repo into a logical location 
+* Put an empty `ssh` in root (`boot`) (`touch ssh`)
+* Boot (wait 5 minutes to allow ssh)
+* Somehow find out the ip address of the pi
+* `ssh pi@ip` with password `raspberry`
+* Clone this repo into a logical location
 * Run `source setup/setup.sh`
-* Allow SSH *Todo*
 ### Configuration
 * Flight configuration files are located in `configs`
 * The current configuration should replace `config.json`
