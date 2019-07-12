@@ -14,3 +14,11 @@ MAIN_ALTITUDE = 1000
 
 # Seconds to wait after reaching parachute height before deploying parachute
 MAIN_DELAY = 0
+
+class Config:
+    def __init__(self):
+	self.DEBUG = False
+	self.PARACHUTE_CHARGE_TIME = 0.5
+	self.APOGEE_DELAY = 0
+	self.MAIN_ALTITUDE = 1000
+	self.MAIN_DELAY = 0
