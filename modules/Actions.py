@@ -36,6 +36,7 @@ def coast():
 
 def apogee():
     """Eject parachute."""
+    eject_parachute()
     return None
 
 
@@ -72,3 +73,9 @@ def restart():
 def shutdown():
     """Shutdown the system."""
     system("shutdown -s")
+
+
+# actions
+def eject_parachute():
+    """Eject the parachute."""
+    return

@@ -96,6 +96,7 @@ higher-order files and understand what they actually do. This also implies
   * Allow ssh and boot straight to user 
 * Run `sudo rpi-update`
   * May not be necessary, but will allow rpi to turn on without hdmi plugged in
+* Run `sudo apt upgrade` to make sure packages are up-to-date
 ### Configuration
 * Flight configuration files are located in `configs`
 * The current configuration should replace `config.json`

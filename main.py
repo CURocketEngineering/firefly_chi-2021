@@ -37,9 +37,11 @@ conf = Config.Config()  # Configuration data
 
 while (not shutdown):
     data.read_sensors(conf)  # Update sensors
+    if conf.DEBUG:
+        print(data)
 
     rocket_state = data.process(rocket_state)
-    rocket_state = comm.read_comm()  # Update state from comm
+    rocket_state = comm.read_comm(rocket_state)  # Update state from comm
     comm.send(data.to_json(rocket_state))
     data.write_out(rocket_state)
 

@@ -5,6 +5,7 @@ ins tmux # Terminal multiplexing!
 ins python3-pip --fix-missing # pip!
 ins git # git!
 ins sense-hat
+ins rpi.gpio
 
 
 pip3 install digi-xbee
