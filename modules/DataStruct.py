@@ -83,14 +83,17 @@ class DataStruct:
 
         Assumes obvious constants ie earth atmosphere avg molar mass.
         """
-        M = 0.0289644 # molar mass of earth's air
-        g = 9.81 # m / sec^2 acc
-        R = 8.314462 # kg m^2 / s^2 K mol
-        p0 = self.millibars_to_atmospheres(self.zero_pressure)
-        p = self.millibars_to_atmospheres(self.sense.get_pressure())
-        T = self.sense.get_temperature() + 273.15
-        # z = ln(P/P0) * (-RT/Mg)
-        return -log(p/p0) * R * T / (M * g)
+        try:
+            M = 0.0289644 # molar mass of earth's air
+            g = 9.81 # m / sec^2 acc
+            R = 8.314462 # kg m^2 / s^2 K mol
+            p0 = self.millibars_to_atmospheres(self.zero_pressure)
+            p = self.millibars_to_atmospheres(self.sense.get_pressure())
+            T = self.sense.get_temperature() + 273.15
+            # z = ln(P/P0) * (-RT/Mg)
+            return -log(p/p0) * R * T / (M * g)
+        except:
+            return 0
 
     def meters_to_ft(self,meters):
         """Convert meters to ft."""
