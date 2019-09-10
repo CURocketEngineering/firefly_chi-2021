@@ -3,79 +3,101 @@
 from os import system
 
 
-def halt():
+def halt(data):
     """Do nothing."""
-    return None
+    return "HALT"
 
 
-def idle():
+def idle(data):
     """Do nothing."""
-    return None
+    return "IDLE"
 
 
-def arm():
-    """Do nothing."""
-    return None
+def arm(data):
+    """Wait for launch. Continue sampling ground pressure."""
+    data.reset_zero_pressure()
+
+    # Detect if system starts to go up
+    if (data.sense.get_pressure() - last_pressure) > 1: 
+        return "IGNITE"
+    return "ARM"
 
 
-def ignite():
-    """Do nothing."""
+def ignite(data):
+    """Move to burn state. Might begin simulation."""
     print("PASS: Not finished")
-    return None
+    print("TODO SIMULATION HERE")
+    return "BURN"
 
 
-def burn():
-    """Do nothing."""
-    return None
+def burn(data):
+    """Change state if no longer going up."""
+    if data.get_accelerometer_up() <= 0:
+        return "COAST"
+    return "BURN"
 
 
-def coast():
-    """Use air-stoppers if necessary."""
-    return None
+def coast(data):
+    """Change state to Use air-stoppers if necessary."""
+    if (data.sense.get_pressure() - data.last_pressure) >= 1:
+        return "APOGEE"
+    return "COAST"
 
 
-def apogee():
+def apogee(data):
     """Eject parachute."""
-    eject_parachute()
-    return None
+    # TODO DELAY
+    eject_parachute(data, "DROGUE")
+    return "WAIT"
 
 
-def eject():
+def wait(data):
+    """Wait until correct altitude."""
+    if data.get_altitude() < data.MAIN_ALTITUDE: # TODO
+        return "EJECT"
+    return "WAIT"
+
+
+def eject(data):
     """Eject other parachute."""
-    return None
+    # TODO DELAY
+    eject_parachute("MAIN")
+    return "DATA"
 
 
-def fall():
+def fall(data):
     """Do nothing."""
-    return
+    if (data.sense.get_pressure() - data.last_pressure) < 1:
+        return "RECOVER"
+    return "FALL"
 
 
-def recover():
+def recover(data):
+    """Display Data to SenseHat."""
+    # TODO Sensehat stuff
+    return "RECOVER"
+
+
+def test(data):
     """Do nothing."""
-    return
+    return "TEST"
 
 
-def wait():
-    """Do nothing."""
-    return
-
-
-def test():
-    """Do nothing."""
-    return
-
-
-def restart():
+def restart(data):
     """Restart the system."""
     system('reboot now')
 
 
-def shutdown():
+def shutdown(data):
     """Shutdown the system."""
     system("shutdown -s")
 
 
 # actions
-def eject_parachute():
-    """Eject the parachute."""
-    return
+def eject_parachute(data, parachute):
+    """Eject the parachute. TODO"""
+    if parachute == "MAIN":
+        pass
+    else: # DROGUE
+        pass
+    return None
