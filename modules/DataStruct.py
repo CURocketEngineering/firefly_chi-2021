@@ -15,18 +15,19 @@ class DataStruct:
         self.sense.clear()
         self.zero_pressure = self.sense.get_pressure()
         self.last_pressure = 0
+        self.dp = 0
         self.time = datetime.now()
         self._file = open(file_name, "a")
         self._file.write("--- " + str(self.time)+"\n")
 
     def __repr__(self):
         return self.__str__()
-
+    
     def __str__(self):
         self_str = ""
         data = self.to_dict(self.last_state)
         return self.format_data(data)
-
+    
     def format_data(self, dict, end="\n"):
         """Format data."""
         data_str = ""
@@ -46,8 +47,8 @@ class DataStruct:
     def read_sensors(self, conf):
         """Update data."""
         self.time = datetime.now()
+        self.dp = self.sense.get_pressure() - self.last_pressure
         self.last_pressure = self.sense.get_pressure()
-        
 
     def read_sensors_test(self,conf):
         """Update with fake data from config."""
