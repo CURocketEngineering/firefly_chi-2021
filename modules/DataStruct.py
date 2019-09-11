@@ -14,6 +14,7 @@ class DataStruct:
         self.sense = SenseHat()
         self.sense.clear()
         self.zero_pressure = self.sense.get_pressure()
+        self.last_pressure = 0
         self.time = datetime.now()
         self._file = open(file_name, "a")
         self._file.write("--- " + str(self.time)+"\n")
@@ -45,6 +46,8 @@ class DataStruct:
     def read_sensors(self, conf):
         """Update data."""
         self.time = datetime.now()
+        self.last_pressure = self.sense.get_pressure()
+        
 
     def read_sensors_test(self,conf):
         """Update with fake data from config."""
@@ -113,3 +116,11 @@ class DataStruct:
 
     def process(self,state):
         return state
+
+    def reset_zero_pressure(self):
+        self.zero_pressure = self.sense.get_pressure()
+        return None
+
+    def get_accelerometer_up(self):
+        """Return upward acceleration. Assumes +z is up."""
+        return self.sense.get_accelerometer_raw().z

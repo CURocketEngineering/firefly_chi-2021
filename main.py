@@ -36,14 +36,15 @@ comm = Comm.Comm()  # Communication channel
 conf = Config.Config()  # Configuration data
 
 while (not shutdown):
-    data.read_sensors(conf)  # Update sensors
+    data.read_sensors(conf)  # Update sensors (update sensors)
     if conf.DEBUG:
         print(data)
 
-    rocket_state = data.process(rocket_state)
+    rocket_state = data.process(rocket_state) 
     rocket_state = comm.read_comm(rocket_state)  # Update state from comm
-    comm.send(data.to_json(rocket_state))
-    data.write_out(rocket_state)
+    
+    comm.send(data.to_json(rocket_state)) # Send data
+    data.write_out(rocket_state) # Write data
 
     # Make Decisions
-    actions[rocket_state]()
+    rocket_state = actions[rocket_state](data) if (actions[rocket_state](data) not None) else rocket_state
