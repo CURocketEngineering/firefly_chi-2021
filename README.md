@@ -1,5 +1,5 @@
 # CURE Avionics vP
-A python implementation of similar-functioning avionics code. Began in 2019.
+A Python implementation of similar-functioning avionics code. Began in 2019.
 
 ## Functionality
 ### Pre-flight
@@ -92,8 +92,8 @@ higher-order files and understand what they actually do. This also implies
 
 ## Setup
 ### Components
-* A raspberry pi 3
-* A raspberry pi sensehat
+* A Raspberry Pi 3
+* A Raspberry Pi Sense HAT
 * A GlobalSat BU-353-S4 USB GPS Receiver 
 [link](https://www.amazon.com/GlobalSat-BU-353-S4-USB-Receiver-Black/dp/B008200LHW/ref=sr_1_5?keywords=raspberry+pi+gps&qid=1561522641&s=gateway&sr=8-5)
 * XBEE *Todo*
