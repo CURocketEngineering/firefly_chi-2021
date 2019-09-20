@@ -31,9 +31,10 @@ actions = {
 # Initialization
 rocket_state = "IDLE"  # State of rocket
 file_name = "output.json"  # Name for recording json
-data = DataStruct.DataStruct(file_name)  # Avionics data
+conf = Config.Config(open("config.json"))  # Configuration data
+data = DataStruct.DataStruct(file_name, conf)  # Avionics data
 comm = Comm.Comm()  # Communication channel
-conf = Config.Config()  # Configuration data
+
 
 while (not shutdown):
     data.read_sensors(conf)  # Update sensors (update sensors)
@@ -47,4 +48,4 @@ while (not shutdown):
     data.write_out(rocket_state) # Write data
 
     # Make Decisions
-    rocket_state = actions[rocket_state](data) if (actions[rocket_state](data) not None) else rocket_state
+    rocket_state = actions[rocket_state](data) if (actions[rocket_state](data) != None) else rocket_state

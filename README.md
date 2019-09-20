@@ -70,12 +70,25 @@ the software and so each is easily understood and independent.
 higher-order files and understand what they actually do. This also implies 
 *documentation*. 
 ### 2019-2020 CURE-goals
-* Reformat/recover past flight data into correct json format (for testing)
-* Make sure gps and xbee work with fin-tennas
-* Configure air-break simulation into program
-* Write comm-program
-* Write telemetry program
-* Write sensehat display/config program
+* Simulation
+  * Reformat/recover past flight data into correct json format (for testing)
+  * Air-breaks?
+* Data Analysis 
+* Strong Telemetry
+  * XBee Zigbee network
+  * SSH over Xbee
+* Testing
+  * System integrity
+  * Code structure
+  * Sensehat interface
+* Choose new commerical system
+  * ~~Stratologger~~
+* Cameras
+* Configuration files
+* RF transparency
+  * Fintennas
+  * Comm through nose-cone
+* Structural Design
 
 ## Setup
 ### Components
