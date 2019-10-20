@@ -26,3 +26,6 @@ class Config:
 
         self.flip_h = conf_file.get("flip_h", False)
         self.flip_v = conf_file.get("flip_v", False)
+
+        # This is a meme, but it doesn't 'really' matter if true of false
+        self.FIDI = conf_file.get("FIDI", False)

@@ -4,6 +4,7 @@ from json import dumps
 from datetime import datetime
 from sense_hat import SenseHat
 from math import log, e
+from imp import gps
 
 
 class DataStruct:

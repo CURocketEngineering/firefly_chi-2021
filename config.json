@@ -11,5 +11,9 @@
     "main_delay": 0,
 
     "flip_h": false,
-    "flip_v": false
+    "flip_v": false,
+
+
+
+    "FIDI": false,
 }
