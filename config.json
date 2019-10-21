@@ -2,14 +2,22 @@
     "name": "Default Config",
     "DEBUG": false,
     "test": false,
+    "sim": false,
     "test_file": "",
     "comm": true,
+
+    "sim_file": "",
+
+    "kalman": false,
 
     "parachute_charge_time": 0.5,
     "apogee_delay": 0,
     "main_altitude": 1500,
     "main_delay": 0,
 
-    "flip_h": false,
-    "flip_v": false
+    "up": "+z",
+
+
+
+    "FIDI": false,
 }

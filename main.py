@@ -36,7 +36,7 @@ data = DataStruct.DataStruct(file_name, conf)  # Avionics data
 comm = Comm.Comm()  # Communication channel
 
 
-while (not shutdown):
+while (not shutdown) or (conf.FIDI):
     data.read_sensors(conf)  # Update sensors (update sensors)
     if conf.DEBUG:
         print(data)

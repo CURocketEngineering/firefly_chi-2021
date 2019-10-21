@@ -71,8 +71,8 @@ higher-order files and understand what they actually do. This also implies
 *documentation*. 
 ### 2019-2020 CURE-goals
 * Simulation
+  * Kalman filter
   * Reformat/recover past flight data into correct json format (for testing)
-  * Air-breaks?
 * Data Analysis 
 * Strong Telemetry
   * XBee Zigbee network
@@ -88,7 +88,14 @@ higher-order files and understand what they actually do. This also implies
 * RF transparency
   * Fintennas
   * Comm through nose-cone
+  * 7-inch slits
 * Structural Design
+
+#### Current Objectives
+* Ignition switches `?`
+* Xbee Zigbee implementation `modules/low_level/low_comm.py`
+* Simulation configuration `modules/DataStruct.py`
+* GPS serial reader `modules/low_level/gps.py`
 
 ## Setup
 ### Components

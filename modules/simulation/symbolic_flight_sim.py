@@ -7,21 +7,21 @@ from sympy.physics.vector import dynamicsymbols
 
 t = Symbol('t')
 h = Symbol('h')
-#V = dynamicsymbols('V')
+V = dynamicsymbols('V')
 F = Symbol('F')
 D = Symbol('D')
 T = Symbol('T')
 p = Symbol('p')
 g = Symbol('g')
-#m = dynamicsymbols('m')
-h, m = symbols('h m', cls=Function)
+m = dynamicsymbols('m')
+h = Symbol('h')
 C_D = Symbol('C_D')
 A = Symbol('A')
 u_e = Symbol('u_e')
 # h = Integral(V, t)
-V = h(t).diff(t)
+# V = h(t).diff(t)
 
-g = 9.81 # [m/s^2], gravity
+G = 9.81998 # [m/s^2], gravity
 
 
 class Rocket:
