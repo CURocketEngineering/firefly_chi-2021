@@ -1,6 +1,6 @@
-# Config.py
+"""Config for the rocket."""
+
 from json import load
-import sys
 
 
 class Config:
@@ -11,6 +11,7 @@ class Config:
         # For use in debugging program
         self.DEBUG = conf_file.get("DEBUG", False)
         self.Test = conf_file.get("test", False)
+        self.Sim = conf_file.get("sim", False)
 
         # Seconds to push charge to e-match
         self.PARACHUTE_CHARGE_TIME = conf_file.get("parachute_charge_time", 0.5)
@@ -24,8 +25,8 @@ class Config:
         # Seconds to wait after reaching parachute height before deploying parachute
         self.MAIN_DELAY = conf_file.get("main_delay", 0)
 
-        self.flip_h = conf_file.get("flip_h", False)
-        self.flip_v = conf_file.get("flip_v", False)
+        # Up direction on rocket
+        self.up = conf_file.get("up", "+z")
 
         # This is a meme, but it doesn't 'really' matter if true of false
         self.FIDI = conf_file.get("FIDI", False)

@@ -2,7 +2,7 @@
 from serial import serial
 
 class GPS:
-    def __init__(self, port="/dev/USB0", max_pass=8):
+    def __init__(self, port="/dev/ttyUSB0", max_pass=8):
         self.port = port
         self.ser = serial(port)
         self.max_pass = 8
@@ -23,4 +23,10 @@ class GPS:
         if reevaluate:
             p = l.split(",")
             
-            
+    def get_lat():
+        """Lattitude."""
+        return ""
+
+    def get_lon():
+        """Longitude."""
+        return ""
