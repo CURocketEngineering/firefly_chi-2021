@@ -66,7 +66,6 @@ class GPS:
             if "S" in attributes[3]:
                 self.lat *= -1
 
-            print(lon_att)
             cv = lon_att.find(".")
             self.lon = int(lon_att[:cv-2]) + (float(lon_att[cv-2:])/60)
             if "W" in attributes[5]:
@@ -91,8 +90,11 @@ class GPS:
         return self.alt
 
     def __del__(self):
-        if self.has_gps:
-            self.ser.close()
+        try:
+            if self.has_gps:
+                self.ser.close()
+        except Exception:
+            pass
 
 
 # The following is used for debugging
