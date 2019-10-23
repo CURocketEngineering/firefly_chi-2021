@@ -76,12 +76,13 @@ class DataStruct:
             "state": state,
             "time": str(self.time),
             "sensors": {
-                "alt": self.get_altitude(),  # meters
+                "alt": self.altimeter.get_altitude(),  # meters
                 "pres": self.altimeter.get_pressure(),  # millibars
                 "hum": self.altimeter.get_humidity(),  # %
                 "temp": (self.altimeter.get_temperature() * 9 / 5) + 32.0,  # F
                 "lat": self.gps.get_lat(),  # latitude
                 "lon": self.gps.get_lon(),  # longitude
+                "gps_alt": self.gps.get_alt(), # meters above sea level
                 "pitch": self.imu.get_accelerometer()["pitch"],  # degrees
                 "roll": self.imu.get_accelerometer()["pitch"],  # degrees
                 "yaw": self.imu.get_accelerometer()["pitch"],  # degrees
