@@ -18,7 +18,7 @@ def arm(data, conf):
     data.reset_zero_pressure()
 
     # Detect if system starts to go up
-    if (data.dp) > 1: 
+    if data.check_dp_gt_val(1):
         return "IGNITE"
     return "ARM"
 
@@ -38,7 +38,8 @@ def burn(data, conf):
 
 def coast(data, conf):
     """Change state to Use air-stoppers if necessary."""
-    if (data.dp) < 0:
+    if data.check_dp_gt_val(0):
+        print(f"DP: {data.dp}")
         return "APOGEE"
     return "COAST"
 

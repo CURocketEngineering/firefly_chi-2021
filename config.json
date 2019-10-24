@@ -15,6 +15,9 @@
 
     "up": "-z",
 
+    
+    "remote_xbee_id": "C001BEE",
+
 
 
     "FIDI": false

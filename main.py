@@ -30,6 +30,8 @@ while (not shutdown) or (conf.FIDI):
             rocket_state = "ARM"
         if data.last_state != rocket_state:
             input(f"STATE CHANGE: {rocket_state}")
+        if rocket_state in ["APOGEE"]:
+            input("PAUSE BUFFER")
     
     rocket_state = data.process(rocket_state) 
     rocket_state = comm.read_comm(rocket_state)  # Update state from comm

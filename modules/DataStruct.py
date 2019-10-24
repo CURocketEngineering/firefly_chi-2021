@@ -3,7 +3,7 @@
 from json import dumps, loads
 from datetime import datetime
 from math import log, e
-from sys import exit as finish_simulation
+from sys import exit as completely_exit
 
 
 class DataStruct:
@@ -13,12 +13,14 @@ class DataStruct:
         self.conf = config
         
         self.last_state = "IDLE"
-
         
         if self.conf.SIM:
             data_file = open(self.conf.SIM_FILE, "r")
             lines = data_file.readlines()
             self.sim_data = [loads(line) for line in lines]
+            self.sim_data_current = self.sim_data[0]
+            self.sim_data = self.sim_data[1:]
+            self.sim_zero_alt = self.sim_data_current["sensors"]["alt"]
             data_file.close()
         else:
             # Only import modules if not a simulation
@@ -28,7 +30,7 @@ class DataStruct:
             self.gps = gps.GPS()
         
         self.last_pressure = 0
-        self.dp = 0
+        self.dp = [0]
         
         self.time = datetime.now()
         self._file = open(file_name, "a")
@@ -61,10 +63,11 @@ class DataStruct:
     def read_sensors(self):
         """Update data."""
         if self.conf.SIM:
+            self.read_sensors_test()
             return None
         
         self.time = datetime.now()
-        self.dp = self.altimeter.get_pressure() - self.last_pressure
+        self.add_dp(self.altimeter.get_pressure() - self.last_pressure)
         self.last_pressure = self.altimeter.get_pressure()
         return None
 
@@ -72,9 +75,11 @@ class DataStruct:
         """Update with fake data from config."""
         if len(self.sim_data) > 0:
             data = self.sim_data[0]  # Return first entry
-            self.dp = data["sensors"]["pres"] - self.last_pressure
+            data["sensors"]["alt"] -= self.sim_zero_alt
+            self.add_dp(data["sensors"]["pres"] - self.last_pressure)
             self.last_pressure = data["sensors"]["pres"]
             self.sim_data = self.sim_data[1:]  # Remove first entry
+            self.sim_data_current = data
             return data
         else:
             self.finish_sim()
@@ -90,7 +95,7 @@ class DataStruct:
         self.last_state = state
         
         if self.conf.SIM:
-            return self.read_sensors_test()
+            return self.sim_data_current
         
         datajson = {
             "state": state,
@@ -127,9 +132,9 @@ class DataStruct:
 
     def reset_zero_pressure(self):
         if self.conf.SIM:
-            return None
-        
-        self.altimeter.set_zero_pressure()
+            self.sim_zero_alt = self.sim_data_current["sensors"]["alt"]
+        else:
+            self.altimeter.set_zero_pressure()
         return None
 
     def get_accelerometer_up(self):
@@ -156,6 +161,26 @@ class DataStruct:
                 return -acc
             return acc
 
+    def add_dp(self, dp, max_count=5):
+        self.dp.append(dp)
+        if len(self.dp) > max_count:
+            self.dp = self.dp[1:]
+        return None
+
+    def check_dp_gt_val(self, val, count=4):
+        """Check if dp greater than val for a count."""
+        for dp in self.dp:
+            if dp > val:
+                count -= 1
+
+        if count <= 0:
+            return True
+        else:
+            return False
+    
+    
+
     def finish_sim(self):
+        """Exit condition for simulation."""
         print("Simulation Finished")
-        finish_simulation()
+        completely_exit()
