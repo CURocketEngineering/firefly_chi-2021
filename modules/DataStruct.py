@@ -1,10 +1,9 @@
 """Data and related functions for the avionics system."""
 
-from json import dumps
+from json import dumps, loads
 from datetime import datetime
-from sense_hat import SenseHat
 from math import log, e
-from low_level import gps, imu, alt
+from sys import exit as finish_simulation
 
 
 class DataStruct:
@@ -14,10 +13,19 @@ class DataStruct:
         self.conf = config
         
         self.last_state = "IDLE"
+
         
-        self.imu = imu.IMU()
-        self.altimeter = alt.Alt()
-        self.gps = gps.GPS()
+        if self.conf.SIM:
+            data_file = open(self.conf.SIM_FILE, "r")
+            lines = data_file.readlines()
+            self.sim_data = [loads(line) for line in lines]
+            data_file.close()
+        else:
+            # Only import modules if not a simulation
+            from modules.low_level import gps, imu, alt
+            self.imu = imu.IMU()
+            self.altimeter = alt.Alt()
+            self.gps = gps.GPS()
         
         self.last_pressure = 0
         self.dp = 0
@@ -52,9 +60,9 @@ class DataStruct:
 
     def read_sensors(self):
         """Update data."""
-        if self.conf.sim:
-            self.read_sensors_test()
+        if self.conf.SIM:
             return None
+        
         self.time = datetime.now()
         self.dp = self.altimeter.get_pressure() - self.last_pressure
         self.last_pressure = self.altimeter.get_pressure()
@@ -62,7 +70,14 @@ class DataStruct:
 
     def read_sensors_test(self):
         """Update with fake data from config."""
-        return None
+        if len(self.sim_data) > 0:
+            data = self.sim_data[0]  # Return first entry
+            self.dp = data["sensors"]["pres"] - self.last_pressure
+            self.sim_data = self.sim_data[1:]  # Remove first entry
+            return data
+        else:
+            self.finish_sim()
+            return None
 
     def to_json(self,state):
         """Return string of data."""
@@ -72,6 +87,10 @@ class DataStruct:
     def to_dict(self,state):
         """Return dict of data."""
         self.last_state = state
+        
+        if self.conf.SIM:
+            return self.read_sensors_test()
+        
         datajson = {
             "state": state,
             "time": str(self.time),
@@ -84,8 +103,8 @@ class DataStruct:
                 "lon": self.gps.get_lon(),  # longitude
                 "gps_alt": self.gps.get_alt(), # meters above sea level
                 "pitch": self.imu.get_accelerometer()["pitch"],  # degrees
-                "roll": self.imu.get_accelerometer()["pitch"],  # degrees
-                "yaw": self.imu.get_accelerometer()["pitch"],  # degrees
+                "roll": self.imu.get_accelerometer()["roll"],  # degrees
+                "yaw": self.imu.get_accelerometer()["yaw"],  # degrees
                 "compass": self.imu.get_compass(),  # degrees
                 "acc": self.imu.get_accelerometer_raw(),  # degrees
                 "gyro": self.imu.get_gyroscope_raw(),  # rad/sec
@@ -106,18 +125,36 @@ class DataStruct:
         return state
 
     def reset_zero_pressure(self):
+        if self.conf.SIM:
+            return None
+        
         self.altimeter.set_zero_pressure()
         return None
 
     def get_accelerometer_up(self):
         """Return upward acceleration. [Default=+z]."""
-        acc = 0
-        if "x" in self.conf.up:
-            acc = self.imu.get_accelerometer_raw().x
-        elif "y" in self.conf.up:
-            acc = self.imu.get_accelerometer_raw().y
+        if self.conf.SIM:
+            acc = 0
+            if "x" in self.conf.up:
+                acc = self.sim_data[0]["sensors"]["acc"]["x"]
+            elif "y" in self.conf.up:
+                acc = self.sim_data[0]["sensors"]["acc"]["y"]
+            else:
+                acc = self.sim_data[0]["sensors"]["acc"]["z"]
+            if "-" in self.conf.up:
+                return -acc
         else:
-            acc = self.imu.get_accelerometer_raw().z
-        if "-" in self.conf.up:
-            return -acc
-        return acc
+            acc = 0
+            if "x" in self.conf.up:
+                acc = self.imu.get_accelerometer_raw().x
+            elif "y" in self.conf.up:
+                acc = self.imu.get_accelerometer_raw().y
+            else:
+                acc = self.imu.get_accelerometer_raw().z
+            if "-" in self.conf.up:
+                return -acc
+            return acc
+
+    def finish_sim(self):
+        print("Simulation Finished")
+        finish_simulation()

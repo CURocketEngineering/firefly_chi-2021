@@ -10,37 +10,27 @@ from modules import Config
 
 shutdown = False
 
-# Map of state to action
-actions = {
-    "HALT": Actions.halt,
-    "IDLE": Actions.idle,
-    "ARM": Actions.arm,
-    "IGNITE": Actions.ignite,
-    "BURN": Actions.burn,
-    "COAST": Actions.coast,
-    "APOGEE": Actions.apogee,
-    "FALL": Actions.fall,
-    "EJECT": Actions.eject,
-    "RECOVER": Actions.recover,
-    "WAIT": Actions.wait,
-    "TEST": Actions.test,
-    "SHUTDOWN": Actions.shutdown,
-    "RESTART": Actions.restart,
-}
 
 # Initialization
 rocket_state = "IDLE"  # State of rocket
 file_name = "output.json"  # Name for recording json
-conf = Config.Config(open("config.json"))  # Configuration data
+conf = Config.Config("config.json")  # Configuration data
 data = DataStruct.DataStruct(file_name, conf)  # Avionics data
 comm = Comm.Comm()  # Communication channel
 
 
 while (not shutdown) or (conf.FIDI):
-    data.read_sensors(conf)  # Update sensors (update sensors)
+    data.read_sensors()  # Update sensors 
     if conf.DEBUG:
+        print(f"STATE: {rocket_state}")
         print(data)
 
+    if conf.SIM:
+        if rocket_state == "IDLE":
+            rocket_state = "ARM"
+        if data.last_state != rocket_state:
+            input(f"STATE CHANGE: {rocket_state}")
+    
     rocket_state = data.process(rocket_state) 
     rocket_state = comm.read_comm(rocket_state)  # Update state from comm
     
@@ -48,4 +38,6 @@ while (not shutdown) or (conf.FIDI):
     data.write_out(rocket_state) # Write data
 
     # Make Decisions
-    rocket_state = actions[rocket_state](data) if (actions[rocket_state](data) != None) else rocket_state
+    new_state = Actions.actions[rocket_state](data, conf)
+    if new_state is not None:
+        rocket_state = new_state

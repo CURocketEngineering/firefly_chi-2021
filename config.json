@@ -1,12 +1,10 @@
 {
     "name": "Default Config",
-    "DEBUG": false,
-    "test": false,
-    "sim": false,
-    "test_file": "",
-    "comm": true,
-
-    "sim_file": "",
+    "DEBUG": true,
+    "test": true,
+    "sim": true,
+    "sim_file": "data/sim_irec2019.json",
+    "comm": false,
 
     "kalman": false,
 
@@ -15,9 +13,9 @@
     "main_altitude": 1500,
     "main_delay": 0,
 
-    "up": "+z",
+    "up": "-z",
 
 
 
-    "FIDI": false,
+    "FIDI": false
 }
