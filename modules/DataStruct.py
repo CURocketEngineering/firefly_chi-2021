@@ -73,6 +73,7 @@ class DataStruct:
         if len(self.sim_data) > 0:
             data = self.sim_data[0]  # Return first entry
             self.dp = data["sensors"]["pres"] - self.last_pressure
+            self.last_pressure = data["sensors"]["pres"]
             self.sim_data = self.sim_data[1:]  # Remove first entry
             return data
         else:

@@ -38,7 +38,7 @@ def burn(data, conf):
 
 def coast(data, conf):
     """Change state to Use air-stoppers if necessary."""
-    if (data.dp) > 0:
+    if (data.dp) < 0:
         return "APOGEE"
     return "COAST"
 

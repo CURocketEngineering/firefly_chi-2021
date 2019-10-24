@@ -16,7 +16,7 @@ rocket_state = "IDLE"  # State of rocket
 file_name = "output.json"  # Name for recording json
 conf = Config.Config("config.json")  # Configuration data
 data = DataStruct.DataStruct(file_name, conf)  # Avionics data
-comm = Comm.Comm()  # Communication channel
+comm = Comm.Comm(conf)  # Communication channel
 
 
 while (not shutdown) or (conf.FIDI):
