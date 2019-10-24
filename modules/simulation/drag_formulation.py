@@ -8,6 +8,7 @@ This is heavily based off of the Drag Coefficient Prediction paper.
 
 from sympy import *
 from math import atan, log10
+import matplotlib
 
 PI = 3.14
 e = 2.71 
@@ -15,7 +16,7 @@ e = 2.71
 
 
 class Rocket:
-    def __init__(self, verbose=False):
+    def __init__(self, verbose=False, mach=0):
         """Initialize variables for simulation.
 
         Variables are lbs, ft, ...
@@ -30,11 +31,19 @@ class Rocket:
         self.boat_tail_radius = .1666  # Minumum boat tail radius
         self.diameter = 2 * self.radius 
 
-        self.velocity = 143.4
-        self.M = self.velocity*0.0008957066031914082  # Ideal mach number
-        self.m = self.M
-        self.Mach = self.M
-        self.mach = self.M
+        if mach == 0:
+            self.velocity = 143.4
+            self.M = self.velocity*0.0008957066031914082  # Ideal mach number
+            self.m = self.M
+            self.Mach = self.M
+            self.mach = self.M
+        else:
+            self.M = mach
+            self.m = self.M
+            self.Mach = self.M
+            self.mach = self.M
+            self.velocity = self.M/0.0008957066031914082 
+        
         self.K = 0.0004  # Coefficient of "paint"...
 
         self.number_of_fins = 4
@@ -139,11 +148,11 @@ class Rocket:
                 (self.skin_friction_drag(h))**(1/2)) )
         if self.M > 0.6:
             if self.M < 1:
-                b_d *= 1 + 215.8(M-.6)**6
+                b_d *= 1 + 215.8* (self.M-.6)**6
             elif self.M < 2:
-                b_d *= 2.0881*(self.M-1)**3 - 3.7938*(M-1)**2 + 1.4618*(M-1) + 1.883917
+                b_d *= 2.0881*(self.M-1)**3 - 3.7938*(self.M-1)**2 + 1.4618*(self.M-1) + 1.883917
             else:
-                b_d *= 0.297*(self.M-2)**3 -0.7937*(M-2)**2 - 0.1115*(M-2) + 1.64006
+                b_d *= 0.297*(self.M-2)**3 -0.7937*(self.M-2)**2 - 0.1115*(self.M-2) + 1.64006
         return b_d
 
     def n(self):
@@ -183,8 +192,22 @@ class Rocket:
 
 
 if __name__ == "__main__":
-    r = Rocket(verbose=False)
-    height = 1500
-    r_C_d = r.drag_coefficient(h=height)
+    d = Rocket(verbose=False)
+    height = 500
+    machs = list(range(0,1000))
+    machs = [mach*.005 for mach in machs]
+    drags = []
+    for i, emach in enumerate(machs):
+        r = Rocket(verbose=False, mach=emach)
+        drags.append(r.drag_coefficient(h=height))
+
+    import matplotlib.pyplot as plt
+    fig, ax = plt.subplots()
+    ax.plot(machs, drags)
+    ax.grid()
+    plt.show()
+        
+    
+    r_C_d = d.drag_coefficient(h=height)
     print(f"Drag Coefficient at {height} ft: {r_C_d}")
     print("Ran sim.")
