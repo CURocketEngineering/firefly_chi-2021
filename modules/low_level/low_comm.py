@@ -35,9 +35,10 @@ class Antenna:
         return ""
 
     def send(self, data):
+        print(self.active, data)
         if self.active:
-            self.device.send_data(self.remote_device, data)
-            #self.device.send_data_broadcast(data)
+            #self.device.send_data(self.remote_device, data)
+            self.device.send_data_broadcast(data)
 
 
 if __name__ == "__main__":

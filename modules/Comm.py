@@ -4,10 +4,7 @@ from modules.low_level import low_comm
 class Comm:
     def __init__(self, conf):
         self.conf = conf
-        if conf.SIM:
-            pass
-        else:
-            self.antenna = low_comm.Antenna()
+        self.antenna = low_comm.Antenna(remote_address=conf.REMOTE_XBEE_ID)
 
     def read_comm(self, rocket_state):
         """Read communication for meta-state changes."""
@@ -17,6 +14,5 @@ class Comm:
         """Broadcast data on network."""
         if self.conf.SIM:
             return None
-        else:
-            self.antenna.send(data)
+        self.antenna.send(data)
         return None

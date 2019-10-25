@@ -20,7 +20,8 @@ comm = Comm.Comm(conf)  # Communication channel
 
 
 while (not shutdown) or (conf.FIDI):
-    data.read_sensors()  # Update sensors 
+    data.read_sensors()  # Update sensors
+    
     if conf.DEBUG:
         print(f"STATE: {rocket_state}")
         print(data)
@@ -35,8 +36,9 @@ while (not shutdown) or (conf.FIDI):
     
     rocket_state = data.process(rocket_state) 
     rocket_state = comm.read_comm(rocket_state)  # Update state from comm
-    
-    comm.send(data.to_json(rocket_state)) # Send data
+
+
+    comm.send(data.to_json(rocket_state, part=0)) # Send data
     data.write_out(rocket_state) # Write data
 
     # Make Decisions

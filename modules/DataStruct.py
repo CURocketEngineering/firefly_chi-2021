@@ -85,10 +85,44 @@ class DataStruct:
             self.finish_sim()
             return None
 
-    def to_json(self,state):
-        """Return string of data."""
+    def to_json(self, state, part=0):
+        """Return string of data.
+        
+        part indicates the part of the data to convert.
+        0 is all of the data. 
+        1 is the main data.
+        2 is raw imu. 
+        3 is gps.
+        4 is other barometric data.
+        All parts contain state and time info.
+        """
         # indent=None has no newlines (for parsing/space), indent=4 looks pretty
-        return dumps(self.to_dict(state),indent=None)
+        if part == 0 or part not in [0, 1, 2, 3, 4]:
+            return dumps(self.to_dict(state), indent=None)
+        elif part == 1:
+            datajson = self.to_dict(state)
+            for data in list(datajson["sensors"].keys()):
+                if data not in ["alt", "pres", "pitch", "yaw", "roll"]:
+                    datajson["sensors"].pop(data)
+            return dumps(datajson, indent=None)
+        elif part == 2:
+            datajson = self.to_dict(state)
+            for data in datajson["sensors"]:
+                if data not in ["gyro", "mag", "compass", "acc"]:
+                    datajson["sensors"].pop(data)
+            return dumps(datajson, indent=None)
+        elif part == 3:
+            datajson = self.to_dict(state)
+            for data in datajson["sensors"]:
+                if data not in ["lat", "lon", "gps_alt"]:
+                    datajson["sensors"].pop(data)
+            return dumps(datajson, indent=None)
+        else:  # part == 4
+            datajson = self.to_dict(state)
+            for data in datajson["sensors"]:
+                if data not in ["hum", "temp"]:
+                    datajson["sensors"].pop(data)
+            return dumps(datajson, indent=None)
 
     def to_dict(self,state):
         """Return dict of data."""
