@@ -1,15 +1,15 @@
 {
-    "name": "Default Config",
-    "DEBUG": true,
-    "test": true,
-    "sim": true,
-    "sim_file": "data/sim_irec2019.json",
-    "comm": false,
+    "name": "IREC 2019 Example Config",
+    "DEBUG": false,
+    "test": false,
+    "sim": false,
+    
+    "comm": true,
 
     "kalman": false,
 
     "parachute_charge_time": 0.5,
-    "apogee_delay": 0,
+    "apogee_delay": 3,
     "main_altitude": 1500,
     "main_delay": 0,
 
@@ -18,7 +18,6 @@
 
     
     "remote_xbee_id": "C001BEE",
-
 
 
     "FIDI": false
