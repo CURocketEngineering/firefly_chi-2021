@@ -1,5 +1,25 @@
-# CURE Avionics vP
-A Python implementation of similar-functioning avionics code. Began in 2019.
+# CURE Avionics
+A Python implementation of similar-functioning avionics code designed to be
+run on the avionics bay. Began in 2019.
+
+## Current Status and Objectives
+The current status is `Green Golden 1`. 
+
+| Objective                           | Category      | Status      | Priority |
+| ---                                 | --:           | --:         | --:      |
+| Zigbee protocol                     | Communication | Started     | High     |
+| Implement Relay                     | Ejection      | Not Started | High     |
+| SSH over Xbee                       | Communication | Not Started | Low      |
+| Sensehat Interface                  | Setup         | Not Started | Medium   |
+| System Integrity Test               | Testing       | Not Started | Medium   |
+| Recover flight data from damaged SD | Simulation    | Halted      | Medium   |
+| Finish Flight Simulation            | Simulation    | Progress    | Medium   |
+| Kalman Filter                       | Simulation    | Progress    | Low      |
+| Structural Design - Fall            | Structure     | Started     | High     |
+| Stuctural Design - IREC             | Strucutre     | Not Started | Low      |
+| Telemetry(s)                        | Communication | Not Started | Medium   |
+| Cameras                             | Cameras       | Not Started | Low      |
+
 
 ## Functionality
 ### Pre-flight
@@ -69,33 +89,6 @@ the software and so each is easily understood and independent.
 3. **Be easy**. Everyone who's written hello world should be able to read the
 higher-order files and understand what they actually do. This also implies 
 *documentation*. 
-### 2019-2020 CURE-goals
-* Simulation
-  * Kalman filter
-  * Reformat/recover past flight data into correct json format (for testing)
-* Data Analysis 
-* Strong Telemetry
-  * XBee Zigbee network
-  * SSH over Xbee
-* Testing
-  * System integrity
-  * Code structure
-  * Sensehat interface
-* Choose new commerical system
-  * ~~Stratologger~~
-* Cameras
-* Configuration files
-* RF transparency
-  * Fintennas
-  * Comm through nose-cone
-  * 7-inch slits
-* Structural Design
-
-#### Current Objectives
-* Ignition switches `?`
-* Xbee Zigbee implementation `modules/low_level/low_comm.py`
-* Simulation configuration `modules/DataStruct.py`
-* GPS serial reader `modules/low_level/gps.py`
 
 ## Setup
 ### Components
@@ -120,3 +113,19 @@ higher-order files and understand what they actually do. This also implies
 ### Configuration
 * Flight configuration files are located in `configs`
 * The current configuration should replace `config.json`
+  * ex// `cp configs/test.json config.json`
+  
+## Naming Convention
+Naming the pogress of the avionics bay is the most fun part. The convention
+follows `[color] [color] [number]` describing 
+`[mindsim progress] [tested progress] [version]`. 
+
+The order of the colors are as follows:
+1. RED
+2. BLUE
+3. GREEN
+4. ORANGE
+5. GOLDEN
+
+For instance, the fifth version of the software that is halfway capable, 
+but fully functioning for that halfway capability is `GREEN GOLDEN 5`.
