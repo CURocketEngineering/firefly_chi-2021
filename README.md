@@ -7,7 +7,7 @@ The current status is `Green Golden 1`.
 
 | Objective                           | Category      | Status      | Priority |
 | ---                                 | --:           | --:         | --:      |
-| Zigbee protocol                     | Communication | [ ]     | High     |
+| Zigbee protocol                     | Communication | Not Started | High     |
 | Implement Relay                     | Ejection      | Not Started | High     |
 | SSH over Xbee                       | Communication | Not Started | Low      |
 | Sensehat Interface                  | Setup         | Not Started | Medium   |
