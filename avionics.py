@@ -39,8 +39,8 @@ def avionics():
         rocket_state = comm.read_comm(rocket_state)  # Update state from comm
 
 
-        comm.send(data.to_json(rocket_state, part=0)) # Send data
-        data.write_out(rocket_state) # Write data
+        comm.send(data.to_json(rocket_state, part=0))  # Send data
+        data.write_out(rocket_state)  # Write data
 
         # Make Decisions
         new_state = Actions.actions[rocket_state](data, conf)
