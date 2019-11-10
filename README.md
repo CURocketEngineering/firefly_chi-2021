@@ -7,7 +7,7 @@ The current status is `Green Golden 1`.
 
 | Objective                           | Category      | Status      | Priority |
 | ---                                 | --:           | --:         | --:      |
-| Zigbee protocol                     | Communication | Started     | High     |
+| Zigbee protocol                     | Communication | Not Started | High     |
 | Implement Relay                     | Ejection      | Not Started | High     |
 | SSH over Xbee                       | Communication | Not Started | Low      |
 | Sensehat Interface                  | Setup         | Not Started | Medium   |
@@ -23,11 +23,6 @@ The current status is `Green Golden 1`.
 
 ## Functionality
 ### Pre-flight
-Before flight, the system will be able to complete the following actions
-without xbee communication (input from sensehat). 
-* Calculate air-break speeds/timing table
-* Change configuration files
-* Arm
 Before flight, the system will be able to complete the following actions
 with xbee communication. 
 * Calculate air-break speeds/timing table

@@ -212,8 +212,6 @@ class DataStruct:
         else:
             return False
     
-    
-
     def finish_sim(self):
         """Exit condition for simulation."""
         print("Simulation Finished")
