@@ -8,6 +8,7 @@ from modules import DataStruct
 from modules import Actions
 from modules import Config
 from modules import Vis
+from modules import SH_Interface
 import argparse as arg
 
 
@@ -59,11 +60,15 @@ if __name__ == "__main__":
         description="Argument parsing for extra features"
     )
     parser.add_argument("--gui", "--curses", "-g", "-G", default=False, action="store_true")
+    parser.add_argument("--sensehat", "--sense_hat", "-s", "-S", default=False, action="store_true")
     arguments = parser.parse_args()
 
     if arguments.gui:  # Use curses gui
         visualizer = Vis.Vis(Avionics())
         visualizer.menu()
+    elif arguments.sensehat:  # Use sensehat interface
+        s = SH_Interface.Interface()
+        s.menu()
     else:  # Run on the command line
         system = Avionics()
         system.main_process()
