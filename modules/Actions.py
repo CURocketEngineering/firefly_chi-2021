@@ -47,7 +47,8 @@ def coast(data, conf):
 def apogee(data, conf):
     """Eject parachute."""
     # TODO DELAY
-    input(data.to_dict("APOGEE")["sensors"]["alt"])
+    if conf.SIM:
+        input(data.to_dict("APOGEE")["sensors"]["alt"])
     
     eject_parachute(data, "DROGUE")
     return "WAIT"

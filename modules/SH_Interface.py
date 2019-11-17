@@ -1,6 +1,6 @@
 """Used to run avionics from sensehat."""
 
-from sense_hat import SenseHat
+#from sense_hat import SenseHat
 import avionics
 
 class Interface:

@@ -20,6 +20,7 @@ The current status is `Green Golden 1`.
 | Telemetry(s)                        | Communication | Not Started | Medium   |
 | Cameras                             | Cameras       | Not Started | Low      |
 
+---
 
 ## Functionality
 ### Pre-flight
@@ -31,6 +32,9 @@ with xbee communication.
 * Run any command-line action
 * Pull data
 Any of these actions are also able to be completed by SSHing into the py.
+
+---
+
 ### Flight 
 If `Arm` is initiated and anything is wrong with the system, the display and 
 speaker will emit a message. If the system is flight ready it will perform the 
@@ -66,6 +70,9 @@ following.
      * Shutdown the system
   4. Test
      * Make sure the system is ready to be used
+ 
+ ---
+ 
 ### Post-flight
 When the system has detected that it is no longer in any flight state and is 
 instead ready to be recovered, it will display the following in a repeated
@@ -73,6 +80,8 @@ sequence.
 1. State [Recover]
 2. Max Altitude (ft)
 3. Max Velocity (ft/s)
+
+---
 
 ## Goals
 This is the 21st century. Batteries are cheap. So are computers. We can afford
@@ -84,6 +93,8 @@ the software and so each is easily understood and independent.
 3. **Be easy**. Everyone who's written hello world should be able to read the
 higher-order files and understand what they actually do. This also implies 
 *documentation*. 
+
+---
 
 ## Setup
 ### Components
@@ -110,6 +121,8 @@ higher-order files and understand what they actually do. This also implies
 * The current configuration should replace `config.json`
   * ex// `cp configs/test.json config.json`
   
+---
+  
 ## Naming Convention
 Naming the pogress of the avionics bay is the most fun part. The convention
 follows `[color] [color] [number]` describing 
@@ -124,3 +137,5 @@ The order of the colors are as follows:
 
 For instance, the fifth version of the software that is halfway capable, 
 but fully functioning for that halfway capability is `GREEN GOLDEN 5`.
+
+---

@@ -21,8 +21,13 @@ class Avionics():
         # Initialization
         self.rocket_state = "IDLE"  # State of rocket
         self.file_name = "output.json"  # Name for recording json
-        self.conf = Config.Config("config.json")  # Configuration data
-        self.data = DataStruct.DataStruct(self.file_name, self.conf)  # Avionics data
+        self.conf = Config.Config( # Configuration data
+            "config.json"
+        )  
+        self.data = DataStruct.DataStruct( # Avionics data
+            self.file_name,
+            self.conf
+        )  
         self.comm = Comm.Comm(self.conf)  # Communication channel
 
     def main_process(self):
@@ -40,15 +45,26 @@ class Avionics():
                     input(f"STATE CHANGE: {self.rocket_state}")
                 if self.rocket_state in ["APOGEE"]:
                     input("PAUSE BUFFER")
-    
-            self.rocket_state = self.data.process(self.rocket_state) 
-            self.rocket_state = self.comm.read_comm(self.rocket_state)  # Update state from comm
 
-            self.comm.send(self.data.to_json(self.rocket_state, part=0))  # Send data
-            self.data.write_out(self.rocket_state)  # Write data
+            # Update state by processessing data
+            self.rocket_state = self.data.process(self.rocket_state)
+
+            # Update state from comm
+            self.rocket_state = self.comm.read_comm(self.rocket_state)
+            
+            # Send data
+            self.comm.send(
+                self.data.to_json(self.rocket_state, part=0)
+            )
+
+            # Write data
+            self.data.write_out(self.rocket_state)  
 
             # Make Decisions
-            new_state = Actions.actions[self.rocket_state](self.data, self.conf)
+            new_state = Actions.actions[self.rocket_state](
+                self.data,
+                self.conf
+            )
             if new_state is not None:
                 self.rocket_state = new_state
 
@@ -59,8 +75,14 @@ if __name__ == "__main__":
     parser = arg.ArgumentParser(
         description="Argument parsing for extra features"
     )
-    parser.add_argument("--gui", "--curses", "-g", "-G", default=False, action="store_true")
-    parser.add_argument("--sensehat", "--sense_hat", "-s", "-S", default=False, action="store_true")
+    parser.add_argument(
+        "--gui", "--curses", "-g", "-G",
+        default=False, action="store_true"
+    )
+    parser.add_argument(
+        "--sensehat", "--sense_hat", "-s", "-S",
+        default=False, action="store_true"
+    )
     arguments = parser.parse_args()
 
     if arguments.gui:  # Use curses gui
