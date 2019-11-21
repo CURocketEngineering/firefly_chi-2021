@@ -1,5 +1,7 @@
 """Perform actions of the rocket."""
+from modules.low_level import relay
 
+import datetime
 from os import system
 
 
@@ -50,7 +52,7 @@ def apogee(data, conf):
     if conf.SIM:
         input(data.to_dict("APOGEE")["sensors"]["alt"])
     
-    eject_parachute(data, "DROGUE")
+    eject_parachute(data, conf, "DROGUE")
     return "WAIT"
 
 
@@ -64,7 +66,7 @@ def wait(data, conf):
 def eject(data, conf):
     """Eject other parachute."""
     # TODO DELAY
-    eject_parachute(data, "MAIN")
+    eject_parachute(data, conf, "MAIN")
     return "RECOVER"
 
 
@@ -96,13 +98,28 @@ def shutdown(data, conf):
     system("shutdown -s")
 
 
-# actions
-def eject_parachute(data, parachute):
+def eject_parachute(data, conf, parachute):
     """Eject the parachute. TODO"""
-    if parachute == "MAIN":
+
+    # Wait for apogee or main delay
+    now = datetime.datetime.now()
+    if "MAIN" in parachute.upper():
+        while ((datetime.datetime.now() - now).total_seconds()
+               < conf.MAIN_DELAY):
+            pass
+    elif "DROGUE" in parachute.upper():
+        while ((datetime.datetime.now() - now).total_seconds()
+               < conf.APOGEE_DELAY):
+            pass
+
+    # Hold for parachute charge time seconds
+    now = datetime.datetime.now()
+    relay.turnon(parachute, conf)
+    while ((datetime.datetime.now() - now).total_seconds()
+           < conf.PARACHUTE_CHARGE_TIME):
         pass
-    else: # DROGUE
-        pass
+    relay.turnoff(parachute, conf)
+    
     return None
 
 

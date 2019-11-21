@@ -8,13 +8,10 @@ This is heavily based off of the Drag Coefficient Prediction paper.
 
 from sympy import *
 from math import atan, log10, asin
-from math import pi as PI
+from math import pi as PI, e
 import matplotlib
 import matplotlib.pyplot as plt
 import pandas as pd
-
-e = 2.71 
-
 
 
 class Rocket:
@@ -25,8 +22,8 @@ class Rocket:
         """
         self.verbose = verbose
         
-        self.nose_cone_length = 1.666  # Length of nose cone
-        self.body_tube_length = 7.5  # Length of body tube
+        self.nose_cone_length = 1.333  # Length of nose cone
+        self.body_tube_length = 5.333  # Length of body tube
         self.length = self.nose_cone_length + self.body_tube_length
 
         self.radius = 0.1666  # Maximum radius of rocket
@@ -36,35 +33,31 @@ class Rocket:
         if mach == 0:
             self.velocity = 143.4
             self.M = self.velocity*0.0008957066031914082  # Ideal mach number
-            self.m = self.M
-            self.Mach = self.M
-            self.mach = self.M
         else:
             self.M = mach
-            self.m = self.M
-            self.Mach = self.M
-            self.mach = self.M
             self.velocity = self.M/0.0008957066031914082 
         
         self.K = 0.0004  # Coefficient of "paint"...
 
         self.number_of_fins = 4
-        self.fin_length = .1666
-        self.fin_height_long = 0.4166  # Fin root cord
-        self.fin_height_short = 0.1458  # Fin tip cord
-        self.fin_thickness = .021
+        self.fin_length = .333
+        self.fin_height_long = 1  # Fin root cord
+        self.fin_height_short = 0.333  # Fin tip cord
+        self.fin_thickness = .0833
         self.fin_lambda = self.fin_height_short/self.fin_height_long
         self.x = self.fin_length / 8  # Distance from fin leading edge to maximum thickness
 
         self.K_f = 1.04  # mutual interference factor, used to simulate interference drag, 
-        
-        # Total wetted surface area of rocket (approximation)
 
-        a = (self.radius**2 + self.nose_cone_length**2)/(2*self.radius)
-        self.S_B = (2 * PI * (
-            (self.radius - a) *
-            asin(self.nose_cone_length / a) + self.nose_cone_length
-        )
+        a = (self.radius**2 +
+             self.nose_cone_length**2)/(2*self.radius)
+
+        # Total wetted surface area of rocket (approximation)
+        self.S_B = (
+            2 * PI * (
+                (self.radius - a) *
+                asin(self.nose_cone_length / a) + self.nose_cone_length
+            )
         )
         
 
@@ -161,7 +154,7 @@ class Rocket:
         val = (
             (
                 self.a(h) *
-                self.Mach * (
+                self.M * (
                     self.body_tube_length +
                     self.nose_cone_length
                 ) / (
@@ -170,7 +163,7 @@ class Rocket:
             ) * (
                 1 +
                 0.0283 * self.M -
-                0.043 * self.M**2 +
+                0.043 * self.M*2 +
                 0.2107 * self.M**3 -
                 0.03829*self.M**4 +
                 0.002709*self.M**5
@@ -232,7 +225,7 @@ class Rocket:
 
     def R_n(self, h):
         val = (
-            self.a(h) * self.mach * self.fin_height_long /
+            self.a(h) * self.M * self.fin_height_long /
             (12 * self.velocity)
         )
         return val
@@ -396,6 +389,7 @@ if __name__ == "__main__":
     drags = []
     for i, emach in enumerate(machs):
         r = Rocket(verbose=False, mach=emach)
+        #r.velocity = r.M / 0.0008957066031914082  # Ideal mach number
         drags.append(r.drag_coefficient(h=height))
 
     input("continue")

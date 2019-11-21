@@ -15,11 +15,8 @@
 
     "up": "-z",
     "decision_type": "barometric",
-
     
     "remote_xbee_id": "C001BEE",
-
-
 
     "FIDI": false
 }
