@@ -3,12 +3,10 @@ A Python implementation of similar-functioning avionics code designed to be
 run on the avionics bay. Began in 2019.
 
 ## Current Status and Objectives
-The current status is `Green Golden 1`. 
+The current status is `Golden Golden 1`. 
 
 | Objective                           | Category      | Status      | Priority |
 | ---                                 | --:           | --:         | --:      |
-| Zigbee protocol                     | Communication | Not Started | High     |
-| Implement Relay                     | Ejection      | Not Started | High     |
 | SSH over Xbee                       | Communication | Not Started | Low      |
 | Sensehat Interface                  | Setup         | Not Started | Medium   |
 | System Integrity Test               | Testing       | Not Started | Medium   |
@@ -17,7 +15,6 @@ The current status is `Green Golden 1`.
 | Kalman Filter                       | Simulation    | Progress    | Low      |
 | Structural Design - Fall            | Structure     | Started     | High     |
 | Stuctural Design - IREC             | Strucutre     | Not Started | Low      |
-| Telemetry(s)                        | Communication | Not Started | Medium   |
 | Cameras                             | Cameras       | Not Started | Low      |
 
 ---
