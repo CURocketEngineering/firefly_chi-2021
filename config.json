@@ -6,9 +6,11 @@
     "sim_file": "data/sim_irec2019.json",
     "comm": false,
 
+    "sim_td": 0.3,
+
     "kalman": false,
 
-    "parachute_charge_time": 0.5,
+    "parachute_charge_time": 2,
     "apogee_delay": 0,
     "main_altitude": 1500,
     "main_delay": 0,
@@ -16,7 +18,7 @@
     "up": "-z",
     "decision_type": "barometric",
     
-    "remote_xbee_id": "C001BEE",
+    "remote_xbee_id": "0013A20041A061E8",
 
     "FIDI": false
 }

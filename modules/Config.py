@@ -15,6 +15,8 @@ class Config:
         self.SIM = conf_file.get("sim", False)
         self.SIM_FILE = conf_file.get("sim_file", "")
 
+        self.SIM_TD = conf_file.get("sim_td", 0)
+
         # Seconds to push charge to e-match
         self.PARACHUTE_CHARGE_TIME = conf_file.get("parachute_charge_time", 0.5)
 

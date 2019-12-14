@@ -5,6 +5,9 @@ import datetime
 from os import system
 
 
+usb_relay = relay.Relay()
+
+
 def halt(data, conf):
     """Do nothing."""
     return "HALT"
@@ -114,11 +117,11 @@ def eject_parachute(data, conf, parachute):
 
     # Hold for parachute charge time seconds
     now = datetime.datetime.now()
-    relay.turnon(parachute, conf)
+    usb_relay.turnon(parachute, conf)
     while ((datetime.datetime.now() - now).total_seconds()
            < conf.PARACHUTE_CHARGE_TIME):
         pass
-    relay.turnoff(parachute, conf)
+    usb_relay.turnoff(parachute, conf)
     
     return None
 
