@@ -5,3 +5,4 @@ __pycache__
 auto-save-list
 output.json
 prometheus.csv
+tmp*

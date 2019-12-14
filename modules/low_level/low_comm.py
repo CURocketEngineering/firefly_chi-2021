@@ -83,6 +83,9 @@ class Antenna:
         if self.verbose:
             print(message)
 
+    def read_time(self, time):
+        return x.recieve_data(time)
+
 if __name__ == "__main__":
     import json
     print("DEBUG XBEE")
@@ -116,7 +119,31 @@ if __name__ == "__main__":
         "time": 1250310
     }
     if "r" in mode.lower():
-        pass
+        ant = Antenna(verbose=True)
+        f = open("tmp_data.json", "a")
+        cur_data = {}
+        cur_time = 0
+        key_name = ""
+        val = ""
+        uts = 0
+        while True:
+            data = json.loads(ant.read_time(1000).data.decode())
+            for key in data:
+                if "uts" in key:
+                    uts = data[key]
+                else:
+                    key_name = key
+                    val = data[key]
+            if uts != cur_time:
+                f.write(dumps(data))
+                data = {
+                    "uts": uts,
+                    key: val
+                }
+            else:
+                data[key] = val
+            
+        
     else:
         ant = Antenna(remote_address="0013A20041A061E8", verbose=True)
         ant.send(data, skip_time=2.5)
