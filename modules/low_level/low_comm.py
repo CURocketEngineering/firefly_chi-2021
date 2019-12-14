@@ -84,7 +84,7 @@ class Antenna:
             print(message)
 
     def read_time(self, time):
-        return x.recieve_data(time)
+        return self.device.read_data(time)
 
 if __name__ == "__main__":
     import json
@@ -119,7 +119,7 @@ if __name__ == "__main__":
         "time": 1250310
     }
     if "r" in mode.lower():
-        ant = Antenna(verbose=True)
+        ant = Antenna(verbose=True, remote_address="who cares")
         f = open("tmp_data.json", "a")
         cur_data = {}
         cur_time = 0
