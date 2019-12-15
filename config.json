@@ -4,7 +4,7 @@
     "test": true,
     "sim": true,
     "sim_file": "data/sim_irec2019.json",
-    "comm": false,
+    "comm": true,
 
     "sim_td": 0.3,
 

@@ -57,11 +57,12 @@ class Avionics():
             self.rocket_state = self.comm.read_comm(self.rocket_state)
             
             # Send data
-            self.comm.send(
-                self.data.to_json(self.rocket_state, part=0),
-                as_json=True,
-                skip_time=2.5
-            )
+            if self.conf.COMM:
+                self.comm.send(
+                    self.data.to_json(self.rocket_state, part=0),
+                    as_json=True,
+                    skip_time=2.5
+                )
 
             # Write data
             self.data.write_out(self.rocket_state)  

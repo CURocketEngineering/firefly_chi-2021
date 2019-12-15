@@ -33,9 +33,11 @@ class Config:
         self.up = conf_file.get("up", "+z")
 
         # Communications
+        self.COMM = conf_file.get("comm", True)
         self.REMOTE_XBEE_ID = conf_file.get("remote_xbee_id", "")
 
         # This is a meme, but it doesn't 'really' matter if true of false
         self.FIDI = conf_file.get("FIDI", False)
+
 
         file_pointer.close()
