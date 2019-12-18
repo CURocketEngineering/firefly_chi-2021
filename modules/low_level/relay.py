@@ -1,11 +1,12 @@
-"""GPS low-level specific module, GPS BU-353S4.
+"""Low level relay module for 5 volt USB Relay 2
+SRD-5VDC-SL-C SONGLE. 
 
 Assumes single board with 2 relays.
 """
 import usbrelay_py as urelay
 
 class Relay:
-    def __init__(self, port="", max_pass=8, verbose=False):
+    def __init__(self, verbose=False):
         self.verbose = verbose
 
         self.OFF = 0
@@ -33,7 +34,7 @@ class Relay:
         """
         if type(parachute) == int:
             return parachute
-        elif type(parachute == str):
+        elif type(parachute) == str:
             if "apogee" in parachute.lower():
                 return 1
             elif "main" in parachute.lower():
