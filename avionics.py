@@ -9,7 +9,9 @@ from modules import Actions
 from modules import Config
 from modules import Vis
 from modules import SH_Interface
+
 import argparse as arg
+from time import sleep
 
 
 class Avionics():
@@ -46,6 +48,8 @@ class Avionics():
                 if self.rocket_state in ["APOGEE"]:
                     input("PAUSE BUFFER")
 
+                sleep(self.conf.SIM_TD)
+
             # Update state by processessing data
             self.rocket_state = self.data.process(self.rocket_state)
 
@@ -53,9 +57,12 @@ class Avionics():
             self.rocket_state = self.comm.read_comm(self.rocket_state)
             
             # Send data
-            self.comm.send(
-                self.data.to_json(self.rocket_state, part=0)
-            )
+            if self.conf.COMM:
+                self.comm.send(
+                    self.data.to_json(self.rocket_state, part=0),
+                    as_json=True,
+                    skip_time=2.5
+                )
 
             # Write data
             self.data.write_out(self.rocket_state)  

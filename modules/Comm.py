@@ -10,9 +10,13 @@ class Comm:
         """Read communication for meta-state changes."""
         return rocket_state
 
-    def send(self, data):
-        """Broadcast data on network."""
+    def send(self, data, skip_time=0, as_json=True):
+        """Async send data to specific XBee network."""
+        
+        """
         if self.conf.SIM:
             return None
-        self.antenna.send(data)
+        """
+        
+        self.antenna.send(data, skip_time=skip_time, as_json=as_json)
         return None
