@@ -36,3 +36,6 @@ The current status is `Golden Golden 1`.
 | Structural Design - Fall            | Structure     | Started     | High     |
 | Stuctural Design - IREC             | Strucutre     | Not Started | Low      |
 | Cameras                             | Cameras       | Not Started | Medium   |
+| Unit Testing                        | Testing       | Not Started | Medium   |
+| Relay Test                          | Testing       | Not Started | Medium   |
+| XBee Distance Test                  | Testing       | Not Started | Medium   |
