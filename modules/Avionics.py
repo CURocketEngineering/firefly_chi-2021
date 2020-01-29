@@ -3,14 +3,13 @@
 Used for data collection, telemetry, and  parachutes.
 """
 
-from modules import Comm
-from modules import DataStruct
-from modules import Actions
-from modules import Config
-from modules import Vis
-from modules import SH_Interface
+from . import Comm
+from . import DataStruct
+from . import Actions
+from . import Config
+from . import Vis
+from . import SH_Interface
 
-import argparse as arg
 from time import sleep
 
 
@@ -75,29 +74,3 @@ class Avionics():
             if new_state is not None:
                 self.rocket_state = new_state
 
-
-# Run avionics directly
-if __name__ == "__main__":
-    # Set up argument parsing
-    parser = arg.ArgumentParser(
-        description="Argument parsing for extra features"
-    )
-    parser.add_argument(
-        "--gui", "--curses", "-g", "-G",
-        default=False, action="store_true"
-    )
-    parser.add_argument(
-        "--sensehat", "--sense_hat", "-s", "-S",
-        default=False, action="store_true"
-    )
-    arguments = parser.parse_args()
-
-    if arguments.gui:  # Use curses gui
-        visualizer = Vis.Vis(Avionics())
-        visualizer.menu()
-    elif arguments.sensehat:  # Use sensehat interface
-        s = SH_Interface.Interface()
-        s.menu()
-    else:  # Run on the command line
-        system = Avionics()
-        system.main_process()

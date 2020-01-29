@@ -13,6 +13,7 @@ ins rpi.gpio
 # USB Relay
 ins usbrelay
 ins libhidapi-dev
+ins libhidapi-hidraw0
 ins python3.5-dev
 mkdir ~/Documents/programs
 git clone https://github.com/darrylb123/usbrelay ~/Documents/programs/usbrelay_git
