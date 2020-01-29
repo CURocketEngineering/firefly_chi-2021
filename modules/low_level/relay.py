@@ -12,12 +12,20 @@ class Relay:
         self.OFF = 0
         self.ON = 1
 
-        self.board = urelay.board_details()[0]  # Assumes single relay board
+        try:
+            self.board = urelay.board_details()[0]  # Assumes single relay board
+            self.active = True
+        except Exception:
+            self.board = None
+            self.active = False
 
     def turnon(self, parachute, conf):
         """
         Turn on usb relay.
         """
+        if not self.active:
+            return None
+        
         urelay.board_control(self.board[0], self.get_par(parachute), self.ON)
         return None
 
@@ -25,6 +33,9 @@ class Relay:
         """
         Turn off usb relay.
         """
+        if not self.active:
+            return None
+        
         urelay.board_control(self.board[0], self.get_par(parachute), self.OFF)
         return None
 

@@ -7,7 +7,7 @@ import argparse as arg
 
 from modules.Avionics import Avionics
 
-def parse_arguments() -> arg.ArgumentParser.NameSpace:
+def parse_arguments() -> "arg.ArgumentParser.NameSpace":
     parser = arg.ArgumentParser(
         description="Argument parsing for extra features"
     )
@@ -20,12 +20,13 @@ def parse_arguments() -> arg.ArgumentParser.NameSpace:
         default=False, action="store_true"
     )
     arguments = parser.parse_args()
-    return
+    return arguments
 
 
 # Run avionics directly
 if __name__ == "__main__":
     # Set up argument parsing
+    arguments = parse_arguments()
     
     if arguments.gui:  # Use curses gui
         visualizer = Vis.Vis(Avionics())

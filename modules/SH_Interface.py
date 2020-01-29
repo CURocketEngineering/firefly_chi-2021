@@ -1,7 +1,7 @@
 """Used to run avionics from sensehat."""
 
 #from sense_hat import SenseHat
-import avionics
+from . import Avionics
 
 class Interface:
     def __init__(self, avionics_system):

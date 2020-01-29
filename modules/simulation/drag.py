@@ -479,8 +479,10 @@ def atmoslapse(h, g, gamma, R, L, hts, htp, rho0, P0, T0, *args):
 
 # USES https://github.com/dieggsy/alfred-atmos/blob/master/src/atmos.py
 def atmosisa(h):
-    return atmoslapse([h], 9.80665, 1.4, 287.0531, 0.0065, 11000., 20000.,
-                      1.225, 101325., 288.15)
+    return atmoslapse(
+        [h], 9.80665, 1.4, 287.0531, 0.0065, 11000., 20000.,
+        1.225, 101325., 288.15
+    )
 
 
 if __name__ == "__main__":
