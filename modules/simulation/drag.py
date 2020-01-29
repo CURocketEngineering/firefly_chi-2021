@@ -4,6 +4,10 @@ This simulates zero-lift/parasite drag. This all drag is induced
 parallel to flight. 
 
 This is heavily based off of the Drag Coefficient Prediction paper.
+
+For running as main, requires a prometheus.csv containing data from
+RAS aero form the promethus rocket. I would clean it up but I'll wait
+until it is more accurate.
 """
 
 from sympy import *
@@ -12,6 +16,8 @@ from math import pi as PI, e
 import matplotlib
 import matplotlib.pyplot as plt
 import pandas as pd
+import numpy as np
+from math import exp, sqrt
 
 
 class Rocket:
@@ -379,6 +385,102 @@ class Rocket:
     def supersonic_wave_drag(self):
         return 0
 
+class CharlieRocket:
+    def __init__(self, velocity=5, height=1000):
+        self.h = height
+        self.v = velocity
+        
+        # Initial Data
+        self.r_cone = .16666*.3048 # radius of a cone, m
+        self.h_cone = 1.333*.3048  # length of cone, m
+        self.eta = self.h_cone/self.r_cone
+
+        self.l_cone = (1/3)*self.r_cone*self.eta*(1+self.eta**2)**(-.5) # Charecteristic Length of nose cone, meters 
+        self.l_fin = .333*.3048  # Length of fin, meters
+        self.l_body = 5.333*.3048 # Length of the rocket body, meters
+        self.s_cone = 3.14*self.r_cone**2 # reference area of the nose cone
+        self.fin_count = 4
+
+        self.T, self.a, self.P, self.rho = atmosisa(self.h) # Standard Atmosphere, need aerospace toolbox
+        
+        self.mu = ((1.458*10**-6) * self.T**(3/2))/(self.T + 110.4) # Dynamic Viscosity
+        self.M = self.v/self.a # Mach Number
+        self.y = 1.4
+
+        self.Re_cone = self.rho*self.v*self.l_cone / self.mu  # Reynolds Number on the nose cone
+        self.Re_fin = self.rho*self.v*self.l_fin / self.mu  # Reynolds Number on the fins
+        self.Re_body = self.rho*self.v*self.l_body / self.mu  # Reynolds Number on the fins
+
+    def drag(self):
+        return (
+            self.cone_drag(self.Re_cone, self.M, self.y, self.s_cone, self.r_cone) + 
+            self.fin_drag(self.Re_fin) +
+            self.fin_drag(self.Re_body)
+        )
+
+    def cone_drag(self, Re, M, y, S, d):
+        """
+        Nose Cone Skin Drag Coefficient. Takes in Gamma, Reynold's Number, Reference Area and Mach Number, 
+        returns nose cone drag coefficient
+        """
+        cf = (1.328 / sqrt(Re)) * (1 - 0.0689 * M - 0.0343*M**2 + .0061*M**3 - .000278*M**4)  # Skin Drag Coefficient 
+        cp = (.0071 * M + .782) * (.004714*M**2 - .06307*M +.2455) * (3.14 * d**2)/(4*S)
+
+        # Equations from "Mathematical Modeling of Ogive Forbodies and Nose Cones".
+        return (
+            cf +
+            cp
+        )
+
+    def fin_drag(self, Re):
+        cd = 0
+        if Re > 2335:
+            cd = 1.328 / (Re**0.5) # Blassius Solution, flow needs to be turbulent
+        else:
+            cd = 2.9 / (Re**0.601) # Janour's Solution
+        return (
+            self.fin_count *
+            cd
+        )
+    
+# USES https://github.com/dieggsy/alfred-atmos/blob/master/src/atmos.py
+def atmoslapse(h, g, gamma, R, L, hts, htp, rho0, P0, T0, *args):
+    h = np.array(h)
+    T = np.zeros(len(h))
+    expon = np.zeros(len(h))
+    if len(args) > 1:
+        return 'Too many args'
+
+    if len(args) == 1:
+        H0 = args[0]
+    else:
+        H0 = 0
+
+    for i in range(len(h)-1, -1, -1):
+        if h[i] > htp:
+            h[i] = htp
+
+        if h[i] < H0:
+            h[i] = H0
+
+        if h[i] > hts:
+            T[i] = T0 - L*hts
+            expon[i] = exp(g/(R*T[i])*(hts-h[i]))
+
+        else:
+            T[i] = T0-L*h[i]
+            expon[i] = 1.0
+
+    a = (T*gamma*R)**(1/2.)
+    theta = T/T0
+    P = P0*theta**(g/(L*R))*expon
+    rho = rho0*theta**((g/(L*R))-1.0)*expon
+    return(T, a, P, rho)
+
+# USES https://github.com/dieggsy/alfred-atmos/blob/master/src/atmos.py
+def atmosisa(h):
+    return atmoslapse([h], 9.80665, 1.4, 287.0531, 0.0065, 11000., 20000.,
+                      1.225, 101325., 288.15)
 
 
 if __name__ == "__main__":
@@ -408,10 +510,27 @@ if __name__ == "__main__":
         machs2.append(p["Mach Number"][i])
         drags2.append(p["CD"][i])
     print(len(machs), len(drags))
-        
+
+    
+    d = CharlieRocket()
+    height = 500
+    machs = list(range(1,101))
+    machs = [mach*.01 for mach in machs]
+    drags3 = []
+    for i, emach in enumerate(machs):
+        v = emach/0.0008957066031914082 
+        drags3.append(
+            CharlieRocket(
+                height=height,
+                velocity=v
+            ).drag()
+        )
+
+
     fig, ax = plt.subplots()
     ax.plot(machs, drags)
     ax.plot(machs2, drags2)
+    ax.plot(machs, drags3)
     ax.set_xlabel("Mach")
     ax.set_ylabel("Drag Coefficient")
     ax.grid()

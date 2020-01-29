@@ -18,7 +18,7 @@ microprocessors or components.
 the software and so each is easily understood and independent. 
 3. **Be easy**. Everyone who's written hello world should be able to read the
 higher-order files and understand what they actually do. This also implies 
-*documentation*.
+_documentation_.
 
 ### Current Status
 The current status is `Golden Golden 1`. 
