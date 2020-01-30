@@ -19,12 +19,17 @@ class Antenna:
         if self.port != "" and remote_address != "":
             self.device = XBeeDevice(self.port, 9600)
             self.active = True
+            self.has_remote = True
+
             try:
                 self.device.open()
-                add_64 = XBee64BitAddress.from_hex_string(remote_address)
-                self.remote_device = RemoteXBeeDevice(self.device, add_64)
             except:
                 self.active = False
+            try:
+                add_64 = XBee64BitAddress.from_hex_string(remote_address)
+                self.remote_device = RemoteXBeeDevice(self.device, add_64)
+            except Exception:
+                self.has_remote = False
         else:
             self.active = False
             self.device = None
@@ -119,7 +124,8 @@ if __name__ == "__main__":
         "time": 1250310
     }
     if "r" in mode.lower():
-        ant = Antenna(verbose=True, remote_address="who cares")
+        ant = Antenna(verbose=True, remote_address="a")
+        print(ant.active)
         f = open("tmp_data.json", "a")
         cur_data = {}
         cur_time = 0
@@ -136,13 +142,12 @@ if __name__ == "__main__":
                     val = data[key]
             if uts != cur_time:
                 f.write(dumps(data))
-                data = {
-                    "uts": uts,
+                cur_data[uts] = {
                     key: val
                 }
             else:
-                data[key] = val
-            
+                cur_data[uts][key] = val
+            print(cur_data)
         
     else:
         ant = Antenna(remote_address="0013A20041A061E8", verbose=True)
