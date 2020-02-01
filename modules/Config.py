@@ -26,7 +26,8 @@ class Config:
         # Main parachute height in ft
         self.MAIN_ALTITUDE = conf_file.get("main_altitude", 1000)
 
-        # Seconds to wait after reaching parachute height before deploying parachute
+        # Seconds to wait after reaching parachute
+        # height before deploying parachute
         self.MAIN_DELAY = conf_file.get("main_delay", 0)
 
         # Up direction on rocket
@@ -34,9 +35,10 @@ class Config:
 
         # Communications
         self.COMM = conf_file.get("comm", True)
-        self.REMOTE_XBEE_ID = conf_file.get("remote_xbee_id", "")
+        self.REMOTE_XBEE_ID = conf_file.get("remote_xbee_id", "TEMP")
 
-        # This is a meme, but it doesn't 'really' matter if true of false
+        # This is a meme, but it doesn't 'really'
+        # matter if true of false
         self.FIDI = conf_file.get("FIDI", False)
 
 

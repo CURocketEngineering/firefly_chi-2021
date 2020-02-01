@@ -140,8 +140,7 @@ if __name__ == "__main__":
                 else:
                     key_name = key
                     val = data[key]
-            if uts != cur_time:
-                f.write(dumps(data))
+            if uts not in cur_data:
                 cur_data[uts] = {
                     key: val
                 }
