@@ -8,11 +8,17 @@ from json import loads, dumps
 
 
 class Antenna:
-    def __init__(self, port="", remote_address="", verbose=False):
+    def __init__(
+            self,
+            port="",
+            remote_address="",
+            verbose=False
+    ):
         self.verbose = verbose
         if port is "":
             port = self.find_port()
         self.port = port
+        self.verbose_print(f"Port: {self.port}")
 
         self.last_time_sent = 0
 
@@ -26,7 +32,10 @@ class Antenna:
             except:
                 self.active = False
             try:
-                add_64 = XBee64BitAddress.from_hex_string(remote_address)
+                add_64 = (FalseXBee64BitAddress.from_hex_string(
+                    remote_address
+                )
+                )
                 self.remote_device = RemoteXBeeDevice(self.device, add_64)
             except Exception:
                 self.has_remote = False
@@ -44,8 +53,18 @@ class Antenna:
                 pass
         return ""
 
-    def send(self, data, time=None, data_key=None, skip_time=0,
-             parent="", as_json=False):
+    def send(
+            self,
+            data,
+            time=None,
+            data_key=None,
+            skip_time=0,
+             parent="",
+            as_json=False
+    ):
+        """
+        Recursively send asynchronous data.
+        """
         if as_json:
             data = loads(data)
         # Update Time
@@ -89,6 +108,8 @@ class Antenna:
             print(message)
 
     def read_time(self, time):
+        if not self.active:
+            return "{}"
         return self.device.read_data(time)
 
 if __name__ == "__main__":
@@ -125,8 +146,7 @@ if __name__ == "__main__":
     }
     if "r" in mode.lower():
         ant = Antenna(verbose=True, remote_address="a")
-        print(ant.active)
-        f = open("tmp_data.json", "a")
+        print(f"XBEE is active: {ant.active}")
         cur_data = {}
         cur_time = 0
         key_name = ""
@@ -149,5 +169,5 @@ if __name__ == "__main__":
             print(cur_data)
         
     else:
-        ant = Antenna(remote_address="0013A20041A061E8", verbose=True)
+        ant = Antenna(remote_address="0013A20041957215", verbose=True)
         ant.send(data, skip_time=2.5)
