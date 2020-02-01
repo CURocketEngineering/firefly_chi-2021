@@ -18,7 +18,8 @@ from math import exp, sqrt
 
 class Rocket:
     def __init__(self):
-        """Initialize variables for simulation.
+        """
+        Initialize variables for simulation.
 
         Variables are lbs, ft, ...
         """
@@ -49,7 +50,9 @@ class Rocket:
         self.S_B = (
             2 * PI * (
                 (self.radius - self.a) *
-                asin(self.nose_cone_length / self.a) + self.nose_cone_length
+                asin(
+                    self.nose_cone_length / self.a
+                ) + self.nose_cone_length
             )
         )
 
