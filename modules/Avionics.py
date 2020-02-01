@@ -47,7 +47,7 @@ class Avionics():
                 if self.rocket_state in ["APOGEE"]:
                     input("PAUSE BUFFER")
 
-                sleep(self.conf.SIM_TD)
+                #sleep(self.conf.SIM_TD)
 
             # Update state by processessing data
             self.rocket_state = self.data.process(self.rocket_state)
