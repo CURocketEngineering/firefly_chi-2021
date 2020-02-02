@@ -164,9 +164,10 @@ if __name__ == "__main__":
                 cur_data[uts] = {
                     key: val
                 }
+                #print(f"\n >>{uts}: {len(cur_data[uts])}", end="\r")
             else:
                 cur_data[uts][key] = val
-            print(cur_data)
+                print(f" >>{uts}: {cur_data[uts]}", end="\r")
         
     else:
         ant = Antenna(remote_address="0013A20041957215", verbose=True)

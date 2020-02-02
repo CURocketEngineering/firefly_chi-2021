@@ -146,7 +146,7 @@ class DataStruct:
                 "roll": self.imu.get_accelerometer()["roll"],  # degrees
                 "yaw": self.imu.get_accelerometer()["yaw"],  # degrees
                 "compass": self.imu.get_compass(),  # degrees
-                "acc": self.imu.get_accelerometer_raw(),  # degrees
+                "acc": self.imu.get_accelerometer_raw(),  # Gs
                 "gyro": self.imu.get_gyroscope_raw(),  # rad/sec
                 "mag": self.imu.get_compass_raw(),  # microteslas
             }
