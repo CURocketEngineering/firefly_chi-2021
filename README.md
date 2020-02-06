@@ -1,6 +1,6 @@
 # CURE Avionics
 
-![CURE LOGO](media/logo.png)
+![CURE LOGO](media/newlogo.png)
 
 A Python implementation of similar-functioning avionics code designed to be
 run on the avionics bay. Originally designed for the 2019-2020 Clemson
