@@ -1,4 +1,7 @@
 # CURE Avionics
+
+![CURE LOGO](media/newlogo.png)
+
 A Python implementation of similar-functioning avionics code designed to be
 run on the avionics bay. Originally designed for the 2019-2020 Clemson
 University Rocket Engineering year.
@@ -21,7 +24,7 @@ higher-order files and understand what they actually do. This also implies
 _documentation_.
 
 ### Current Status
-The current status is `Golden Golden 1`. 
+The current status is `Golden Golden 2`. 
 
 ### Current Objectives
 
