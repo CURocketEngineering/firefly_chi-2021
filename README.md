@@ -28,17 +28,14 @@ The current status is `Golden Golden 2`.
 
 ### Current Objectives
 
-| Objective                           | Category      | Status      | Priority |
-| ---                                 | --:           | --:         | --:      |
-| SSH over Xbee                       | Communication | Not Started | Low      |
-| Sensehat Interface                  | Setup         | Not Started | High     |
-| System Integrity Test               | Testing       | Not Started | High     |
-| Recover flight data from damaged SD | Simulation    | Halted      | Medium   |
-| Finish Flight Simulation            | Simulation    | Progress    | High     |
-| Kalman Filter                       | Simulation    | Progress    | High     |
-| Structural Design - Fall            | Structure     | Started     | High     |
-| Stuctural Design - IREC             | Strucutre     | Not Started | Low      |
-| Cameras                             | Cameras       | Not Started | Medium   |
-| Unit Testing                        | Testing       | Not Started | Medium   |
-| Relay Test                          | Testing       | Not Started | Medium   |
-| XBee Distance Test                  | Testing       | Not Started | Medium   |
+| Objective                           | Category   | Status      | Priority |
+| ---                                 | --:        | --:         | --:      |
+| System Integrity Test               | Testing    | Not Started | High     |
+| Recover flight data from damaged SD | Simulation | Halted      | Medium   |
+| Finish Flight Simulation            | Simulation | Progress    | High     |
+| Kalman Filter                       | Simulation | Progress    | High     |
+| Structural Design - Fall            | Structure  | Started     | High     |
+| Stuctural Design - IREC             | Strucutre  | Not Started | Low      |
+| Cameras                             | Cameras    | Not Started | Medium   |
+| Unit Testing                        | Testing    | Not Started | Medium   |
+| XBee Distance Test                  | Testing    | Progress    | Medium   |
