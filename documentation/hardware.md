@@ -12,7 +12,7 @@
 | Relay                  | SONGLE SRD-5VDC-SL-C | Parachute ejection                     | 2     | https://www.amazon.com/DZS-Elec-Channel-Isolation-Tolerant/dp/B0721M34CM/ref=sr_1_5?keywords=usb+relay+2+channel&qid=1582506291&sr=8-5   |
 | Battery                |                      | Power avionics bay                     | ?     |                                                                                                                                          |
 
-## Current ()
+## Current (COTS)
 
 | Component              | ID  | Purpose                       | Count | Link                               |
 | :--                    | --: | :--                           | --:   | --                                 |
