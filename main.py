@@ -22,7 +22,6 @@ def parse_arguments() -> "arg.ArgumentParser.NameSpace":
     arguments = parser.parse_args()
     return arguments
 
-
 # Run avionics directly
 if __name__ == "__main__":
     # Set up argument parsing
