@@ -1,5 +1,5 @@
 """Perform actions of the rocket."""
-from modules.low_level import relay
+from lib.low_level import relay
 
 import datetime
 from os import system

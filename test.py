@@ -6,7 +6,7 @@ Unit testing the rocket.
 
 import unittest
 
-from modules import Actions
+from lib import Actions
 
 class TestActions:
 
@@ -19,3 +19,7 @@ class TestActions:
         self.assertTrue(
             "IDLE" == Actions.halt()
         )
+
+
+if __name__ == "__main__":
+    unittest.main()

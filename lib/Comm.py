@@ -1,5 +1,5 @@
 """Perform communication related functions."""
-from modules.low_level import low_comm
+from lib.low_level import low_comm
 
 class Comm:
     def __init__(self, conf):

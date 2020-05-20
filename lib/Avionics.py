@@ -4,7 +4,7 @@ Used for data collection, telemetry, and  parachutes.
 """
 
 from . import Comm
-from . import DataStruct
+from . import Data
 from . import Actions
 from . import Config
 from . import Vis
@@ -25,7 +25,7 @@ class Avionics():
         self.conf = Config.Config( # Configuration data
             "config.json"
         )  
-        self.data = DataStruct.DataStruct( # Avionics data
+        self.data = Data.Data( # Avionics data
             self.file_name,
             self.conf
         )  

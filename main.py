@@ -5,7 +5,7 @@ Used for data collection, telemetry, and  parachutes.
 
 import argparse as arg
 
-from modules.Avionics import Avionics
+from lib.Avionics import Avionics
 
 def parse_arguments() -> "arg.ArgumentParser.NameSpace":
     parser = arg.ArgumentParser(
