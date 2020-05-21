@@ -1,6 +1,6 @@
 # CURE Avionics
 
-![CURE LOGO](media/newlogo.png)
+![CURE LOGO](other/media/newlogo.png)
 
 A Python implementation of similar-functioning avionics code designed to be
 run on the avionics bay. Originally designed for the 2019-2020 Clemson
@@ -8,8 +8,8 @@ University Rocket Engineering year.
 
 This software suite is designed to work with a Raspberry Pi and Sense-Hat
 with other specific components specified in the 
-[documentation](documentation/README.md). 
-Components be easily changed by modifying [low_level](modules/low_level) 
+[documentation](other/documentation/README.md). 
+Components be easily changed by modifying [low_level](src/low_level) 
 classes.
 
 ## Goals
@@ -39,3 +39,9 @@ The current status is `Golden Golden 2`.
 | Cameras                             | Cameras    | Not Started | Medium   |
 | Unit Testing                        | Testing    | Not Started | Medium   |
 | XBee Distance Test                  | Testing    | Progress    | Medium   |
+
+## Contributing
+Contributors who are new to github can read 
+[simple documentation](other/documentation/README.md).
+View [TODO](TODO.md) for a specific list of current
+objectives.

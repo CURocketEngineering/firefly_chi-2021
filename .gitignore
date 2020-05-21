@@ -6,3 +6,4 @@ auto-save-list
 output.json
 prometheus.csv
 tmp*
+other/include/*

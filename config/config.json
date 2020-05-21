@@ -3,7 +3,7 @@
     "DEBUG": true,
     "test": true,
     "sim": true,
-    "sim_file": "data/sim_irec2019.json",
+    "sim_file": "other/data/sim_irec2019.json",
     "comm": true,
 
     "sim_td": 0.3,

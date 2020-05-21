@@ -1,7 +1,7 @@
-"""Run the main avionics process.
+'''Run the main avionics process.
 
 Used for data collection, telemetry, and  parachutes.
-"""
+'''
 
 from . import Comm
 from . import Data
@@ -14,7 +14,7 @@ from time import sleep
 
 
 class Avionics():
-    """Major avionics process."""
+    '''Major avionics process.'''
 
     def __init__(self):
         self.shutdown = False
@@ -23,7 +23,7 @@ class Avionics():
         self.rocket_state = "IDLE"  # State of rocket
         self.file_name = "output.json"  # Name for recording json
         self.conf = Config.Config( # Configuration data
-            "config.json"
+            "config/config.json"
         )  
         self.data = Data.Data( # Avionics data
             self.file_name,
@@ -32,6 +32,9 @@ class Avionics():
         self.comm = Comm.Comm(self.conf)  # Communication channel
 
     def main_process(self):
+        '''
+        Main processing loop.
+        '''
         while (not self.shutdown) or (self.conf.FIDI):
             self.data.read_sensors()  # Update sensors
     

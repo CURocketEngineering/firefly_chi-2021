@@ -6,7 +6,7 @@ from math import log, e
 from sys import exit as completely_exit
 
 
-class DataStruct:
+class Data:
     """Data manipulation for telemetry/decision making."""
 
     def __init__(self, file_name, config):

@@ -1,11 +1,13 @@
-"""Run the main avionics process.
+#!/bin/python
+'''Run the main avionics process.
 
 Used for data collection, telemetry, and  parachutes.
-"""
+'''
 
 import argparse as arg
 
-from lib.Avionics import Avionics
+from src.Avionics import Avionics
+from src.utilities import parse_arguments
 
 def parse_arguments() -> "arg.ArgumentParser.NameSpace":
     parser = arg.ArgumentParser(
