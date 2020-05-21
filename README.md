@@ -8,11 +8,7 @@ University Rocket Engineering year.
 
 This software suite is designed to work with a Raspberry Pi and Sense-Hat
 with other specific components specified in the 
-[documentation](other/documentation/README.md). 
-Components be easily changed by modifying [low_level](src/low_level) 
-classes.
-
-## Goals
+[documentation](other/docume
 This is the 21st century. Batteries are cheap. So are computers. We can afford
 to run a linux kernel on a rocket. The goals of this system are to 
 1. **Be reusable**. We don't want to have to rewrite the codebase for different
@@ -31,17 +27,16 @@ The current status is `Golden Golden 2`.
 | Objective                           | Category   | Status      | Priority |
 | ---                                 | --:        | --:         | --:      |
 | System Integrity Test               | Testing    | Not Started | High     |
-| Recover flight data from damaged SD | Simulation | Halted      | Medium   |
 | Finish Flight Simulation            | Simulation | Progress    | High     |
 | Kalman Filter                       | Simulation | Progress    | High     |
-| Structural Design - Fall            | Structure  | Started     | High     |
-| Stuctural Design - IREC             | Strucutre  | Not Started | Low      |
 | Cameras                             | Cameras    | Not Started | Medium   |
 | Unit Testing                        | Testing    | Not Started | Medium   |
 | XBee Distance Test                  | Testing    | Progress    | Medium   |
 
 ## Contributing
-Contributors who are new to github can read 
+Contributors who are new to github can read the 
+[tutorial](other/documentation/tutorial/README.md).
+Documentation can be read at
 [simple documentation](other/documentation/README.md).
 View [TODO](TODO.md) for a specific list of current
 objectives.
