@@ -1,4 +1,4 @@
-# CURE Avionics
+# Firefly χ
 
 ![CURE LOGO](other/media/newlogo.png)
 
@@ -8,7 +8,8 @@ University Rocket Engineering year.
 
 This software suite is designed to work with a Raspberry Pi and Sense-Hat
 with other specific components specified in the 
-[documentation](other/docume
+[documentation](other/documentation/README.md).
+
 This is the 21st century. Batteries are cheap. So are computers. We can afford
 to run a linux kernel on a rocket. The goals of this system are to 
 1. **Be reusable**. We don't want to have to rewrite the codebase for different
