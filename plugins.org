@@ -1,8 +1,0 @@
-* Plugins Todo
-** DONE [#A] Create a system to setup hooks
-   CLOSED: [2020-07-12 Sun 11:26]
-** DONE [#B] Reorganize the singletons (state, config, data, avionics)
-   CLOSED: [2020-07-12 Sun 12:20]
-** TODO [#C] Move implementations to plugins folder
-** TODO [#C] Test simulation with plugins
-** TODO [#C] Write SimpleKalman
