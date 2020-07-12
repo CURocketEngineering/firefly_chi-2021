@@ -26,6 +26,7 @@ sudo make install_py
 # XBee
 pip3 install digi-xbee
 pip3 install psutil
+pip3 install filterpy
 
 
 cd $wd

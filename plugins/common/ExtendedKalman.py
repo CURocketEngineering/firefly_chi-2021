@@ -1,18 +1,20 @@
 '''
-SimpleKalman.py
+ExtendedKalman.py
 
 Kalman filter for a variable and its rate of change.
-This acts as a simple linear filter for filtering out
+This acts as a simple nonlinear filter for filtering out
 noise during flight. 
+
+TODO needs hjacobian and hx
 '''
 
-from filterpy.kalman import KalmanFilter
+from filterpy.kalman import ExtendedKalmanFilter
 import numpy as np
 from filterpy.common import Q_discrete_white_noise
 
-class SimpleKalman:
+class ExtendedKalman:
     def __init__(self, starting_value):
-        self._filter = KalmanFilter(dim_x=2, dim_z=1)
+        self._filter = ExtendedKalmanFilter(dim_x=2, dim_z=1)
         self._filter.x = np.array([starting_value, starting_value])
         self._filter.F = np.array([[1.,1.],
                                    [0.,1.]])
@@ -45,6 +47,6 @@ class SimpleKalman:
 
 if __name__ == "__main__":
     data = [1,2,3,4,5,6,7,9,9,10]
-    k = SimpleKalman(0.0)
+    k = ExtendedKalman(0.0)
     for i in data:
         print(f"{i} -> {k.filter(i)}")
