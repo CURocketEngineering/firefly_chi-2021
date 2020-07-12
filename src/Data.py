@@ -3,7 +3,6 @@
 from json import dumps, loads
 from datetime import datetime
 from math import log, e
-from sys import exit as completely_exit
 
 
 class Data:
@@ -12,16 +11,16 @@ class Data:
     def __init__(self, file_name, config):
         self.conf = config
         
-        self.last_state = "IDLE"
-        
         if self.conf.SIM:
-            data_file = open(self.conf.SIM_FILE, "r")
-            lines = data_file.readlines()
-            self.sim_data = [loads(line) for line in lines]
-            self.sim_data_current = self.sim_data[0]
-            self.sim_data = self.sim_data[1:]
-            self.sim_zero_alt = self.sim_data_current["sensors"]["alt"]
-            data_file.close()
+            #data_file = open(self.conf.SIM_FILE, "r")
+            #lines = data_file.readlines()
+            #self.sim_data = [loads(line) for line in lines]
+            #self.sim_data_current = self.sim_data[0]
+            #self.sim_data = self.sim_data[1:]
+            #self.sim_zero_alt = self.sim_data_current["sensors"]["alt"]
+            #data_file.close()
+            self.sim_data_current = {}
+            pass
         else:
             # Only import modules if not a simulation
             from modules.low_level import gps, imu, alt
@@ -41,7 +40,7 @@ class Data:
     
     def __str__(self):
         self_str = ""
-        data = self.to_dict(self.last_state)
+        data = self.to_dict(self.conf.last_state)
         return self.format_data(data)
     
     def format_data(self, dict, end="\n"):
@@ -59,31 +58,6 @@ class Data:
             else:
                 data_str += f"[{data}: {data_val}]" + end
         return data_str
-
-    def read_sensors(self):
-        """Update data."""
-        if self.conf.SIM:
-            self.read_sensors_test()
-            return None
-        
-        self.time = datetime.now()
-        self.add_dp(self.altimeter.get_pressure() - self.last_pressure)
-        self.last_pressure = self.altimeter.get_pressure()
-        return None
-
-    def read_sensors_test(self):
-        """Update with fake data from config."""
-        if len(self.sim_data) > 0:
-            data = self.sim_data[0]  # Return first entry
-            data["sensors"]["alt"] -= self.sim_zero_alt
-            self.add_dp(data["sensors"]["pres"] - self.last_pressure)
-            self.last_pressure = data["sensors"]["pres"]
-            self.sim_data = self.sim_data[1:]  # Remove first entry
-            self.sim_data_current = data
-            return data
-        else:
-            self.finish_sim()
-            return None
 
     def to_json(self, state, part=0):
         """Return string of data.
@@ -126,8 +100,6 @@ class Data:
 
     def to_dict(self,state):
         """Return dict of data."""
-        self.last_state = state
-        
         if self.conf.SIM:
             return self.sim_data_current
         
@@ -153,11 +125,6 @@ class Data:
         }
         return datajson
 
-    def get_gps(self):
-        """Parse file for gps."""
-        gps = ""
-        return gps
-
     def write_out(self, state):
         self._file.write(self.to_json(state)+"\n")
 
@@ -176,11 +143,11 @@ class Data:
         if self.conf.SIM:
             acc = 0
             if "x" in self.conf.up:
-                acc = self.sim_data[0]["sensors"]["acc"]["x"]
+                acc = self.sim_data_current["sensors"]["acc"]["x"]
             elif "y" in self.conf.up:
-                acc = self.sim_data[0]["sensors"]["acc"]["y"]
+                acc = self.sim_data_current["sensors"]["acc"]["y"]
             else:
-                acc = self.sim_data[0]["sensors"]["acc"]["z"]
+                acc = self.sim_data_current["sensors"]["acc"]["z"]
             if "-" in self.conf.up:
                 return -acc
         else:
@@ -215,4 +182,4 @@ class Data:
     def finish_sim(self):
         """Exit condition for simulation."""
         print("Simulation Finished")
-        completely_exit()
+        exit(0)
