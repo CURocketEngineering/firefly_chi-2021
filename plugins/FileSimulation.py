@@ -7,7 +7,7 @@ from json import loads
 
 
 def FileSimulation(conf, data):
-    print("FileSimulation Start")
+    print("FileSimulation Init")
     sim_data = None
 
     data_file = open(conf.SIM_FILE, "r")
@@ -25,5 +25,5 @@ def FileSimulation(conf, data):
         data.last_pressure = new_data["sensors"]["pres"]
         sim_data = sim_data[1:]  # Remove first entry
         data.sim_data_current = new_data
-    print("simulation over")
+    print("Simulation Over")
     conf.shutdown = True
