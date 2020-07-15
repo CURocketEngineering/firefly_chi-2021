@@ -6,10 +6,9 @@ Remove from this list if the commit satisfies the requirement.
 * [ ] Make requirements into submodules (in other/include/)
 * [ ] Write more documentation
 * [ ] Use more powerful antennas
-* [ ] Finish simulation for kalman filter
+* [ ] Finish simulation for custom kalman filter
 * [ ] Rocket should recover itself if short happens restarting the raspberry pi
 * [ ] GPS should record all possible measurements
-  * [ ] GPS Altitude (relative to geoid) should be written to disk
 * [ ] Built in functionality to write auxilary data or metadata to disk
 * [ ] Use pandas for keeping long-term data
 

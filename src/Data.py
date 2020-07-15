@@ -3,7 +3,6 @@
 from json import dumps, loads
 from datetime import datetime
 from math import log, e
-from sys import exit as completely_exit
 
 
 class Data:
@@ -12,23 +11,10 @@ class Data:
     def __init__(self, file_name, config):
         self.conf = config
         
-        self.last_state = "IDLE"
-        
         if self.conf.SIM:
-            data_file = open(self.conf.SIM_FILE, "r")
-            lines = data_file.readlines()
-            self.sim_data = [loads(line) for line in lines]
-            self.sim_data_current = self.sim_data[0]
-            self.sim_data = self.sim_data[1:]
-            self.sim_zero_alt = self.sim_data_current["sensors"]["alt"]
-            data_file.close()
-        else:
-            # Only import modules if not a simulation
-            from modules.low_level import gps, imu, alt
-            self.imu = imu.IMU()
-            self.altimeter = alt.Alt()
-            self.gps = gps.GPS()
-        
+            self.sim_data_current = {}
+        self.current_data = self.get_starting_data()
+
         self.last_pressure = 0
         self.dp = [0]
         
@@ -41,7 +27,7 @@ class Data:
     
     def __str__(self):
         self_str = ""
-        data = self.to_dict(self.last_state)
+        data = self.to_dict(self.conf.last_state)
         return self.format_data(data)
     
     def format_data(self, dict, end="\n"):
@@ -50,40 +36,15 @@ class Data:
         tab = "\t"
         for data in dict:
             data_val = dict[data]
-            if type(data_val) == type(0.0):
+            if isinstance(data_val, float):
                 data_str += f"[{data}: {data_val:.2f}]" + end
-            elif type(data_val) == type(0):
+            elif isinstance(data_val, int):
                 data_str += f"[{data}: {data_val}]" + end
-            elif type(data_val) == type({}):
+            elif isinstance(data_val, dict):
                 data_str += f"[{data}: {{ {self.format_data(data_val,end=(end+tab))} }}]" + end
             else:
                 data_str += f"[{data}: {data_val}]" + end
         return data_str
-
-    def read_sensors(self):
-        """Update data."""
-        if self.conf.SIM:
-            self.read_sensors_test()
-            return None
-        
-        self.time = datetime.now()
-        self.add_dp(self.altimeter.get_pressure() - self.last_pressure)
-        self.last_pressure = self.altimeter.get_pressure()
-        return None
-
-    def read_sensors_test(self):
-        """Update with fake data from config."""
-        if len(self.sim_data) > 0:
-            data = self.sim_data[0]  # Return first entry
-            data["sensors"]["alt"] -= self.sim_zero_alt
-            self.add_dp(data["sensors"]["pres"] - self.last_pressure)
-            self.last_pressure = data["sensors"]["pres"]
-            self.sim_data = self.sim_data[1:]  # Remove first entry
-            self.sim_data_current = data
-            return data
-        else:
-            self.finish_sim()
-            return None
 
     def to_json(self, state, part=0):
         """Return string of data.
@@ -126,43 +87,36 @@ class Data:
 
     def to_dict(self,state):
         """Return dict of data."""
-        self.last_state = state
-        
+        self.current_data["time"] = str(time.time())
+        self.current_data["state"] = self.conf.state
         if self.conf.SIM:
             return self.sim_data_current
-        
-        datajson = {
-            "state": state,
+        return self.current_data
+
+    def get_starting_data(self):
+        return {
+            "state": self.conf.state,
             "time": str(self.time),
             "sensors": {
-                "alt": self.altimeter.get_altitude(),  # meters
-                "pres": self.altimeter.get_pressure(),  # millibars
-                "hum": self.altimeter.get_humidity(),  # %
-                "temp": (self.altimeter.get_temperature() * 9 / 5) + 32.0,  # F
-                "lat": self.gps.get_lat(),  # latitude
-                "lon": self.gps.get_lon(),  # longitude
-                "gps_alt": self.gps.get_alt(), # meters above sea level
-                "pitch": self.imu.get_accelerometer()["pitch"],  # degrees
-                "roll": self.imu.get_accelerometer()["roll"],  # degrees
-                "yaw": self.imu.get_accelerometer()["yaw"],  # degrees
-                "compass": self.imu.get_compass(),  # degrees
-                "acc": self.imu.get_accelerometer_raw(),  # Gs
-                "gyro": self.imu.get_gyroscope_raw(),  # rad/sec
-                "mag": self.imu.get_compass_raw(),  # microteslas
+                "alt": 0,  # meters
+                "pres": 0,  # millibars
+                "hum": 0,  # %
+                "temp": 0,  # F
+                "lat": 0,  # latitude
+                "lon": 0,  # longitude
+                "gps_alt": 0, # meters above sea level
+                "pitch": 0,  # degrees
+                "roll": 0,  # degrees
+                "yaw": 0,  # degrees
+                "compass": 0,  # degrees
+                "acc": 0,  # Gs
+                "gyro": 0,  # rad/sec
+                "mag": 0,  # microteslas
             }
         }
-        return datajson
-
-    def get_gps(self):
-        """Parse file for gps."""
-        gps = ""
-        return gps
 
     def write_out(self, state):
         self._file.write(self.to_json(state)+"\n")
-
-    def process(self, state):
-        return state
 
     def reset_zero_pressure(self):
         if self.conf.SIM:
@@ -176,11 +130,11 @@ class Data:
         if self.conf.SIM:
             acc = 0
             if "x" in self.conf.up:
-                acc = self.sim_data[0]["sensors"]["acc"]["x"]
+                acc = self.sim_data_current["sensors"]["acc"]["x"]
             elif "y" in self.conf.up:
-                acc = self.sim_data[0]["sensors"]["acc"]["y"]
+                acc = self.sim_data_current["sensors"]["acc"]["y"]
             else:
-                acc = self.sim_data[0]["sensors"]["acc"]["z"]
+                acc = self.sim_data_current["sensors"]["acc"]["z"]
             if "-" in self.conf.up:
                 return -acc
         else:
@@ -211,8 +165,3 @@ class Data:
             return True
         else:
             return False
-    
-    def finish_sim(self):
-        """Exit condition for simulation."""
-        print("Simulation Finished")
-        completely_exit()

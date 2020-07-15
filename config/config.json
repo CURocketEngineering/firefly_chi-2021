@@ -20,5 +20,9 @@
     
     "remote_xbee_id": "0013A20041957215",
 
-    "FIDI": false
+    "FIDI": false,
+
+    "plugins" : {
+        "idle_start": ["FileSimulation"]
+    }
 }

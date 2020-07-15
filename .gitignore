@@ -1,9 +1,17 @@
+# Editor
 *~
 *#
+auto-save-list
+
+# python
 __pycache__
 *pyc
-auto-save-list
+
+# Logs
 output.json
 prometheus.csv
 tmp*
 other/include/*
+
+# Org-mode
+*.org
