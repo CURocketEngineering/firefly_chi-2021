@@ -34,8 +34,7 @@ class Antenna:
             try:
                 add_64 = (FalseXBee64BitAddress.from_hex_string(
                     remote_address
-                )
-                )
+                ))
                 self.remote_device = RemoteXBeeDevice(self.device, add_64)
             except Exception:
                 self.has_remote = False
