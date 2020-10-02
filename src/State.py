@@ -95,7 +95,7 @@ class State:
     def coast(self):
         """Change state to Use air-stoppers if necessary."""
         if self.data.check_dp_gt_val(0):
-            print(f"DP: {data.dp}")
+            print(f"DP: {self.data.dp}")
             self.activate_hook("coast_end")
             self.activate_hook("apogee_start")
             return "APOGEE"
@@ -186,3 +186,9 @@ class State:
         if isinstance(other, str):
             return self.conf.state == other
         return False
+
+    def __str__(self):
+        return str(self.conf.state)
+
+    def __repr__(self):
+        return str(self)
