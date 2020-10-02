@@ -3,6 +3,7 @@
 from json import dumps, loads
 from datetime import datetime
 from math import log, e
+import time
 
 
 class Data:
@@ -10,6 +11,10 @@ class Data:
 
     def __init__(self, file_name, config):
         self.conf = config
+
+        self.time = datetime.now()
+        self._file = open(file_name, "a")
+        self._file.write("--- " + str(self.time)+"\n")
         
         if self.conf.SIM:
             self.sim_data_current = {}
@@ -17,10 +22,6 @@ class Data:
 
         self.last_pressure = 0
         self.dp = [0]
-        
-        self.time = datetime.now()
-        self._file = open(file_name, "a")
-        self._file.write("--- " + str(self.time)+"\n")
 
     def __repr__(self):
         return self.__str__()
@@ -30,12 +31,13 @@ class Data:
         data = self.to_dict(self.conf.last_state)
         return self.format_data(data)
     
-    def format_data(self, dict, end="\n"):
+    def format_data(self, data_dict, end="\n"):
         """Format data."""
         data_str = ""
         tab = "\t"
-        for data in dict:
-            data_val = dict[data]
+        for data in data_dict:
+            data_val = data_dict[data]
+            print(data_val)
             if isinstance(data_val, float):
                 data_str += f"[{data}: {data_val:.2f}]" + end
             elif isinstance(data_val, int):

@@ -2,10 +2,11 @@
 SenseHatData.py
 '''
 
-# TODO FINISH THIS UP
-
-from sense_hat import SenseHat
-from math import log
+try:
+    from sense_hat import SenseHat
+    from math import log
+except Exception as e:
+    print("[SenseHatData.py]:", e)
 
 def get_altitude(zero_pressure, new_pressure, new_temperature):
     """P = P0*e^(-Mgz/RT).

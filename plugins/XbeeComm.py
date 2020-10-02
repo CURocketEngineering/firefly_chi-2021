@@ -1,5 +1,8 @@
 """Perform communication related functions."""
-from .low_level import low_comm
+try:
+    from .low_level import low_comm
+except Exception as e:
+    print("[XbeeComm]:", e)
 
 class Comm:
     def __init__(self, conf):
