@@ -25,14 +25,12 @@ The current status is `Golden Golden 2`.
 
 ### Current Objectives
 
-| Objective                           | Category   | Status      | Priority |
-| ---                                 | --:        | --:         | --:      |
-| System Integrity Test               | Testing    | Not Started | High     |
-| Finish Flight Simulation            | Simulation | Progress    | High     |
-| Kalman Filter                       | Simulation | Progress    | High     |
-| Cameras                             | Cameras    | Not Started | Medium   |
-| Unit Testing                        | Testing    | Not Started | Medium   |
-| XBee Distance Test                  | Testing    | Progress    | Medium   |
+| Objective                        | Category   | Status      | Priority |
+| ---                              | --:        | --:         | --:      |
+| System Integrity & Unit Tests    | Testing    | Progress    | High     |
+| Kalman Filter                    | Simulation | Progress    | High     |
+| Main and Auxilary loggin plugins | Logging    | Not started | High     |
+
 
 ## Contributing
 Contributors who are new to github can read the 

@@ -127,7 +127,10 @@ class State:
 
     def fall(self):
         """Do nothing."""
-        if (self.data.sense.get_pressure() - self.data.last_pressure) < 1:
+        if (
+                self.data.current_data["sensors"]["pres"] -
+                self.data.last_pressure
+        ) < 1:
             self.activate_hook("fall_end")
             self.activate_hook("recover_start")
             return "RECOVER"
