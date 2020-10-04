@@ -60,6 +60,9 @@ class Config:
         # matter if true of false
         self.FIDI = conf_file.get("FIDI", False)
 
+        # data object
+        self.data = None
+
     def setup_hooks(self, hooks):
         '''
         Return the dictionary of hooks to plugin names as a 
@@ -75,3 +78,9 @@ class Config:
                 if plugin in plugins:
                     new_hooks[hook].append(plugins[plugin])
         return new_hooks
+
+    def add_data(data):
+        """
+        Add link to data object.
+        """
+        self.data = data
