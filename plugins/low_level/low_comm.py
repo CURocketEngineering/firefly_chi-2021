@@ -15,7 +15,7 @@ class Antenna:
             verbose=False
     ):
         self.verbose = verbose
-        if port is "":
+        if port == "":
             port = self.find_port()
         self.port = port
         self.verbose_print(f"Port: {self.port}")
@@ -36,8 +36,9 @@ class Antenna:
                     remote_address
                 ))
                 self.remote_device = RemoteXBeeDevice(self.device, add_64)
-            except Exception:
+            except Exception as e:
                 self.has_remote = False
+                print("Error on remote device: ", e)
         else:
             self.active = False
             self.device = None
@@ -169,5 +170,6 @@ if __name__ == "__main__":
                 print(f" >>{uts}: {cur_data[uts]}", end="\r")
         
     else:
-        ant = Antenna(remote_address="0013A20041957215", verbose=True)
+        #ant = Antenna(remote_address="0013A20041957215", verbose=True)
+        ant = Antenna(remote_address="0013A2004195721E", verbose=True)
         ant.send(data, skip_time=2.5)
