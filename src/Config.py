@@ -9,8 +9,14 @@ class Config:
     def __init__(self, file_name, current_state):
         """Read initialization values into variables."""
         self.shutdown = False
-        file_pointer = open(file_name, "r")
-        conf_file = load(file_pointer)
+        if isinstance(file_name, str):
+            file_pointer = open(file_name, "r")
+            conf_file = load(file_pointer)
+            file_pointer.close()
+        elif isinstance(file_name, dict):
+            conf_file = file_name
+        else:
+            raise ValueError("Argument file_name is of an invalid type")
 
         # State
         self.state = current_state
@@ -54,7 +60,8 @@ class Config:
         # matter if true of false
         self.FIDI = conf_file.get("FIDI", False)
 
-        file_pointer.close()
+        # data object
+        self.data = None
 
     def setup_hooks(self, hooks):
         '''
@@ -71,3 +78,9 @@ class Config:
                 if plugin in plugins:
                     new_hooks[hook].append(plugins[plugin])
         return new_hooks
+
+    def add_data(data):
+        """
+        Add link to data object.
+        """
+        self.data = data

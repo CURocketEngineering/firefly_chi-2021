@@ -34,6 +34,9 @@ def SenseHatData(conf, data):
         data["sensors"]["alt"] = get_altitude(zero_pressure, sense.get_pressure(), sense.get_temperature())  # meters
         data["sensors"]["hum"] = sense.get_humidity()  # %
         data["sensors"]["temp"] = (sense.get_temperature() * 9 / 5) + 32  # F
+        data["sensors"]["pres"] = sense.get_pressure()
+        conf.data.add_dp(sense.get_pressure() - conf.data.last_pressure)
+        conf.data.last_pressure = sense.get_pressure()
         
         # IMU
         data["sensors"]["acc"] = sense.get_acclerometer_raw()  # Gs
@@ -43,5 +46,3 @@ def SenseHatData(conf, data):
         data["sensors"]["compass"] = sense.get_compass()  # rad/sec
         data["sensors"]["gyro"] = sense.get_gyroscope_raw()  # rad/sec
         data["sensors"]["mag"] = sense.get_compass_raw()  # microteslas
-        
-        

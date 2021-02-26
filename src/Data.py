@@ -87,7 +87,7 @@ class Data:
                     datajson["sensors"].pop(data)
             return dumps(datajson, indent=None)
 
-    def to_dict(self,state):
+    def to_dict(self, state):
         """Return dict of data."""
         self.current_data["time"] = str(time.time())
         self.current_data["state"] = self.conf.state

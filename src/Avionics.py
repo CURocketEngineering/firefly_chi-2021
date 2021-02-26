@@ -34,6 +34,7 @@ class Avionics():
             self.data,
             hooks=self.conf.plugins
         )
+        self.conf.add_data(self.data)
 
     def main_process(self):
         '''
@@ -57,4 +58,3 @@ class Avionics():
 
             # Make Decisions
             self.rocket_state.act()
-
