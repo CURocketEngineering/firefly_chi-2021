@@ -18,11 +18,13 @@
     "up": "-z",
     "decision_type": "barometric",
     
-    "remote_xbee_id": "0013A20041957215",
+    "remote_xbee_id": "0013A2004195721E",
 
     "FIDI": false,
 
     "plugins" : {
-        "idle_start": ["FileSimulation"]
+        "idle_start": ["FileSimulation", "Xbee", "FileLogging"],
+        "coast_end": ["USBRelay"],
+        "wait_end": ["USBRelay"]
     }
 }

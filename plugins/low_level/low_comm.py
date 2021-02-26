@@ -17,12 +17,14 @@ class Antenna:
         self.verbose = verbose
         if port == "":
             port = self.find_port()
+        print(port)
         self.port = port
         self.verbose_print(f"Port: {self.port}")
 
         self.last_time_sent = 0
 
         if self.port != "" and remote_address != "":
+            print("GOT HERE")
             self.device = XBeeDevice(self.port, 9600)
             self.active = True
             self.has_remote = True
@@ -171,7 +173,10 @@ if __name__ == "__main__":
                 print(f" >>{uts}: {cur_data[uts]}", end="\r")
         
     else:
+<<<<<<< HEAD
         #ant = Antenna(remote_address="0013A20041957215", verbose=True)
+=======
+>>>>>>> 907ae135654ec06ef72aabe4868056826134e2ca
         ant = Antenna(remote_address="0013A2004195721E", verbose=True)
         import time
         while True:
