@@ -49,9 +49,11 @@ class Avionics():
                     self.conf.state = "ARM"
                     self.rocket_state.activate_hook("arm_start")
                 if self.conf.last_state != self.conf.state:
-                    input(f"STATE CHANGE: {self.conf.state}")
+                    print(f"STATE CHANGE: {self.conf.state}")
+                    sleep(1)
                 if self.conf.state in ["APOGEE"]:
-                    input("PAUSE BUFFER")
+                    print("PAUSE BUFFER")
+                    sleep(1)
 
             # Make Decisions
             self.rocket_state.act()
