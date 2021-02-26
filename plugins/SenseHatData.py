@@ -46,5 +46,3 @@ def SenseHatData(conf, data):
         data["sensors"]["compass"] = sense.get_compass()  # rad/sec
         data["sensors"]["gyro"] = sense.get_gyroscope_raw()  # rad/sec
         data["sensors"]["mag"] = sense.get_compass_raw()  # microteslas
-        
-        

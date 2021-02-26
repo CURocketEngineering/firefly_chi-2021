@@ -21,7 +21,6 @@ class Comm:
 
     def send(self, data, skip_time=0, as_json=True):
         """Async send data to specific XBee network."""
-        
         return self.antenna.send(
             data,
             skip_time=skip_time,

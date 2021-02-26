@@ -56,4 +56,3 @@ class Avionics():
 
             # Make Decisions
             self.rocket_state.act()
-

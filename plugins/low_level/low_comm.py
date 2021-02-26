@@ -32,10 +32,11 @@ class Antenna:
             except:
                 self.active = False
             try:
-                add_64 = (FalseXBee64BitAddress.from_hex_string(
+                add_64 = (XBee64BitAddress.from_hex_string(
                     remote_address
                 ))
                 self.remote_device = RemoteXBeeDevice(self.device, add_64)
+                print("Has remote device")
             except Exception as e:
                 self.has_remote = False
                 print("Error on remote device: ", e)
@@ -172,4 +173,7 @@ if __name__ == "__main__":
     else:
         #ant = Antenna(remote_address="0013A20041957215", verbose=True)
         ant = Antenna(remote_address="0013A2004195721E", verbose=True)
-        ant.send(data, skip_time=2.5)
+        import time
+        while True:
+            ant.send(data, skip_time=2.5)
+            time.sleep(1)
