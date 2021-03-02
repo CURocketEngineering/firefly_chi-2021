@@ -9,6 +9,7 @@ __pycache__
 
 # Logs
 output.json
+output*.json
 prometheus.csv
 tmp*
 other/include/*
