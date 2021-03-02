@@ -87,7 +87,7 @@ class Data:
                     datajson["sensors"].pop(data)
             return dumps(datajson, indent=None)
 
-    def to_dict(self, state):
+    def to_dict(self, state="DEFAULT"):
         """Return dict of data."""
         self.current_data["time"] = str(time.time())
         self.current_data["state"] = self.conf.state
@@ -111,8 +111,8 @@ class Data:
                 "roll": 0,  # degrees
                 "yaw": 0,  # degrees
                 "compass": 0,  # degrees
-                "acc": 0,  # Gs
-                "gyro": 0,  # rad/sec
+                "acc": {},  # Gs
+                "gyro": {},  # rad/sec
                 "mag": 0,  # microteslas
             }
         }
