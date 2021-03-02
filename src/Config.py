@@ -79,7 +79,7 @@ class Config:
                     new_hooks[hook].append(plugins[plugin])
         return new_hooks
 
-    def add_data(data):
+    def add_data(self, data):
         """
         Add link to data object.
         """

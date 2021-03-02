@@ -1,8 +1,13 @@
 """Perform communication related functions."""
+
+from time import sleep
+
+can_use_comm = True
 try:
     from .low_level import low_comm
 except Exception as e:
     print("[XbeeComm]:", e)
+    can_use_comm = False
 
 class Comm:
     def __init__(self, conf):
@@ -14,7 +19,6 @@ class Comm:
     def read_comm(self, rocket_state):
         """
         Read communication for meta-state changes.
-        
         TODO
         """
         return rocket_state
@@ -27,8 +31,10 @@ class Comm:
             as_json=as_json
         )
 
-from time import sleep
+
 def loop(conf, data):
+    if not can_use_comm:
+        return
     ant = Comm(conf)
     while True:
         ant.send(data.to_dict("?"))
