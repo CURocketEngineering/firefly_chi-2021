@@ -37,5 +37,5 @@ def loop(conf, data):
         return
     ant = Comm(conf)
     while True:
-        ant.send(data.to_dict("?"))
+        ant.send(data.to_dict())
         sleep(0.25)

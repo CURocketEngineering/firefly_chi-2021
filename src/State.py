@@ -104,15 +104,14 @@ class State:
     def apogee(self):
         """Eject parachute."""
         if self.conf.SIM:
-            input(self.data.to_dict("APOGEE")["sensors"]["alt"])
-        self.eject_parachute("DROGUE")
+            input(self.data.to_dict()["sensors"]["alt"])
         self.activate_hook("apogee_end")
         self.activate_hook("wait_start")
         return "WAIT"
 
     def wait(self):
         """Wait until correct altitude."""
-        if self.data.to_dict("WAIT")["sensors"]["alt"] < self.conf.MAIN_ALTITUDE: # TODO test this
+        if self.data.to_dict()["sensors"]["alt"] < self.conf.MAIN_ALTITUDE: # TODO test this
             self.activate_hook("wait_end")
             self.activate_hook("eject_start")
             return "EJECT"
@@ -120,7 +119,6 @@ class State:
 
     def eject(self):
         """Eject other parachute."""
-        self.eject_parachute("MAIN")
         self.activate_hook("eject_end")
         self.activate_hook("fall_start")
         return "FALL"

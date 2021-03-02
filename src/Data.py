@@ -28,7 +28,7 @@ class Data:
     
     def __str__(self):
         self_str = ""
-        data = self.to_dict(self.conf.last_state)
+        data = self.to_dict()
         return self.format_data(data)
     
     def format_data(self, data_dict, end="\n"):
@@ -61,33 +61,33 @@ class Data:
         """
         # indent=None has no newlines (for parsing/space), indent=4 looks pretty
         if part == 0 or part not in [0, 1, 2, 3, 4]:
-            return dumps(self.to_dict(state), indent=None)
+            return dumps(self.to_dict(), indent=None)
         elif part == 1:
-            datajson = self.to_dict(state)
+            datajson = self.to_dict()
             for data in list(datajson["sensors"].keys()):
                 if data not in ["alt", "pres", "pitch", "yaw", "roll"]:
                     datajson["sensors"].pop(data)
             return dumps(datajson, indent=None)
         elif part == 2:
-            datajson = self.to_dict(state)
+            datajson = self.to_dict()
             for data in datajson["sensors"]:
                 if data not in ["gyro", "mag", "compass", "acc"]:
                     datajson["sensors"].pop(data)
             return dumps(datajson, indent=None)
         elif part == 3:
-            datajson = self.to_dict(state)
+            datajson = self.to_dict()
             for data in datajson["sensors"]:
                 if data not in ["lat", "lon", "gps_alt"]:
                     datajson["sensors"].pop(data)
             return dumps(datajson, indent=None)
         else:  # part == 4
-            datajson = self.to_dict(state)
+            datajson = self.to_dict()
             for data in datajson["sensors"]:
                 if data not in ["hum", "temp"]:
                     datajson["sensors"].pop(data)
             return dumps(datajson, indent=None)
 
-    def to_dict(self, state="DEFAULT"):
+    def to_dict(self):
         """Return dict of data."""
         self.current_data["time"] = str(time.time())
         self.current_data["state"] = self.conf.state
