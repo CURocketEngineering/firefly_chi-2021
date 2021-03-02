@@ -3,7 +3,11 @@ SRD-5VDC-SL-C SONGLE.
 
 Assumes single board with 2 relays.
 """
-import usbrelay_py as urelay
+try:
+    import usbrelay_py as urelay
+except Exception as e:
+    print("[low_level/relay.py]:", e)
+    raise Exception("Unable to use relays")
 
 class Relay:
     def __init__(self, verbose=False):

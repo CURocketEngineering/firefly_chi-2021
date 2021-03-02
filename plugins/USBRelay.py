@@ -1,10 +1,19 @@
-from .low_level import relay
+
+can_use_relay = True
+try:
+    from .low_level import relay
+except Exception as e:
+    print("Unable to use relays")
+    can_use_relay = False
+
 from time import sleep
 
 HOLD_TIME = 1
 
 
 def Relay(conf, data):
+    if not can_use_relay:
+        return
     rel = relay.Relay(verbose=True)
     if conf.state == "COAST":
         sleep(conf.APOGEE_DELAY)
