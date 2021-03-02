@@ -28,7 +28,7 @@ The current status is `Golden Golden 2`.
 | Objective                        | Category   | Status      | Priority |
 | ---                              | --:        | --:         | --:      |
 | System Integrity & Unit Tests    | Testing    | Progress    | High     |
-| Kalman Filter                    | Simulation | Progress    | High     |
+| Kalman Filter                    | Simulation | Progress    | Low      |
 
 ## Contributing
 Contributors who are new to github can read the 
