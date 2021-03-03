@@ -42,8 +42,8 @@ class Avionics():
         '''
         while (not self.conf.shutdown) or (self.conf.FIDI):
             if self.conf.DEBUG:
-                print(f"STATE: {self.rocket_state}")
-                print(self.data)
+                print(f"STATE: {self.rocket_state}\t{self.data.to_dict()['sensors']['pres']}\r", end="")
+                #print(self.data)
 
             if self.conf.SIM:
                 if self.conf.state == "IDLE":

@@ -72,7 +72,7 @@ class State:
         self.data.reset_zero_pressure()
 
         # Detect if system starts to go up
-        if self.data.check_dp_gt_val(1):
+        if self.data.check_dp_lt_val(0):
             self.activate_hook("arm_end")
             self.activate_hook("ignite_start")
             return "IGNITE"
@@ -85,8 +85,9 @@ class State:
         return "BURN"
 
     def burn(self):
-        """Change state if no longer going up."""
-        if self.data.get_accelerometer_up() <= 0:
+        """Change state if no longer accelerating up."""
+        return "COAST" # TODO, might not be necessary
+        if self.data.check_dp_lt_val(0):
             self.activate_hook("burn_end")
             self.activate_hook("coast_start")
             return "COAST"

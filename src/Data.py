@@ -167,3 +167,14 @@ class Data:
             return True
         else:
             return False
+
+    def check_dp_lt_val(self, val, count=4):
+        """Check if dp greater than val for a count."""
+        for dp in self.dp:
+            if dp < val:
+                count -= 1
+
+        if count <= 0:
+            return True
+        else:
+            return False
