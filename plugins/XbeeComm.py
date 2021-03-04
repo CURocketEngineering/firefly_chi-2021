@@ -38,4 +38,16 @@ def loop(conf, data):
     ant = Comm(conf)
     while True:
         ant.send(data.to_dict())
-        sleep(0.25)
+        data = ant.read_time(0.1).data.decode()
+        if data != "":
+            print(f"\nIncoming Data: {data}")
+        if data == "a":
+            print("\nGot command to ARM!")
+        if data == "s":
+            print("\nGot command to SIMULATE!")
+        if data == "h":
+            print("\nGot command to HALT!")
+        if data == "e1":
+            print("\nGot command to EJECT_APOGEE!")
+        if data == "e2":
+            print("\nGot command to EJECT_MAIN!")

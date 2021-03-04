@@ -45,7 +45,7 @@ class Avionics():
                     print(f"\nSTATE CHANGE: {self.conf.state}")
                 if self.conf.state in ["APOGEE"]:
                     rdata = self.data.to_dict()
-                    print("\nApogee: {rdata['sensors']['alt']}")
+                    print(f"\nApogee: {rdata['sensors']['alt']}")
 
             # Make Decisions
             self.rocket_state.act()

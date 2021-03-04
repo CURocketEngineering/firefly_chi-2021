@@ -19,7 +19,7 @@ plugins = {
     "FileSimulation": FileSimulation.FileSimulation,
     "USBGPS": USBGPS.USBGPS,
     "SenseHatData": SenseHatData.SenseHatData,
-    "USBRelayWatcher": USBRelay.RelayWater,
+    "USBRelayWatcher": USBRelay.RelayWatcher,
     "USBRelay1": USBRelay.Relay1,
     "USBRelay2": USBRelay.Relay2,
 }

@@ -25,7 +25,6 @@ class Data:
         tab = "\t"
         for data in data_dict:
             data_val = data_dict[data]
-            print(data_val)
             if isinstance(data_val, float):
                 data_str += f"[{data}: {data_val:.2f}]" + end
             elif isinstance(data_val, int):

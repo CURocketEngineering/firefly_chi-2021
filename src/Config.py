@@ -73,13 +73,14 @@ class Config:
         '''
         assert isinstance(hooks, dict), "Hooks must be a dictionary"
         new_hooks = {}
-        print("HOOKS",hooks)
         for hook in hooks:
             assert isinstance(hooks[hook], list), "Hooks must map to a list"
             new_hooks[hook] = []
             for plugin in hooks[hook]:
                 if plugin in plugins:
                     new_hooks[hook].append(plugins[plugin])
+                else:
+                    print(f"[Config.py]: hook {hook} is not available")
         return new_hooks
 
     def add_data(self, data):

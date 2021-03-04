@@ -44,9 +44,7 @@ class State:
         Activate a hook function.
         """
         print(f"Activating hook '{hook_name}'")
-        print(self.hooks)
         for function in self.hooks.get(hook_name, []):
-            print("Starting thread")
             t = Thread(target=function, args=(self.conf,self.data))
             t.start()
 

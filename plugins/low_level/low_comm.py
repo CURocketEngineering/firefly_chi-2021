@@ -113,7 +113,12 @@ class Antenna:
     def read_time(self, time):
         if not self.active:
             return "{}"
-        return self.device.read_data(time)
+        try:
+            d = self.device.read_data(time)
+            return d.data.decode()
+        except Exception as e:
+            print(f"[low_level/low_comm.py]: {e}")
+            return "{}"
 
 if __name__ == "__main__":
     import json
@@ -156,7 +161,7 @@ if __name__ == "__main__":
         val = ""
         uts = 0
         while True:
-            data = json.loads(ant.read_time(1000).data.decode())
+            data = json.loads(ant.read_time(1000))
             for key in data:
                 if "uts" in key:
                     uts = data[key]
