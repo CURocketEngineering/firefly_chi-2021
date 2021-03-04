@@ -23,8 +23,8 @@
     "FIDI": false,
 
     "plugins" : {
-        "idle_start": ["FileSimulation", "Xbee", "FileLogging"],
-        "coast_end": ["USBRelay"],
-        "wait_end": ["USBRelay"]
+        "halt_start": ["FileSimulation", "Xbee", "FileLogging"],
+        "apogee_start": ["USBRelay1"],
+        "eject_start": ["USBRelay2"]
     }
 }

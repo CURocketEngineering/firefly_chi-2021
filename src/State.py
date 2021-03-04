@@ -29,7 +29,7 @@ class State:
             "SHUTDOWN": self.shutdown,
             "RESTART": self.restart,
         }
-        self.activate_hook("idle_start")
+        self.activate_hook("halt_start")
 
     def act(self) -> str:
         """
@@ -64,15 +64,14 @@ class State:
         distance_above_ground = self.data.to_dict()["sensors"]["alt"]
         if self.data.check_dp_lt_val(0) and distance_above_ground > 100:
             self.activate_hook("arm_end")
-            self.activate_hook("ignite_start")
+            self.activate_hook("upward_start")
             return "UPWARD"
         return "ARM"
 
     def upward(self):
         """Change state to Use air-stoppers if necessary."""
         if self.data.check_dp_gt_val(0):
-            print(f"DP: {self.data.dp}")
-            self.activate_hook("coast_end")
+            self.activate_hook("upward_end")
             self.activate_hook("apogee_start")
             return "APOGEE"
         return "UPWARD"
@@ -80,7 +79,7 @@ class State:
     def apogee(self):
         """Eject parachute."""
         self.activate_hook("apogee_end")
-        self.activate_hook("wait_start")
+        self.activate_hook("downward_start")
         return "DOWNWARD"
 
     def downward(self):
@@ -94,7 +93,7 @@ class State:
     def eject(self):
         """Eject other parachute."""
         self.activate_hook("eject_end")
-        self.activate_hook("fall_start")
+        self.activate_hook("recover_start")
         return "RECOVER"
 
     def recover(self):
