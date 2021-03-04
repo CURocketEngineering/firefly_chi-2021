@@ -2,35 +2,23 @@
 
 from json import dumps, loads
 from datetime import datetime
-from math import log, e
 import time
 
 
 class Data:
     """Data manipulation for telemetry/decision making."""
 
-    def __init__(self, file_name, config):
+    def __init__(self, config):
         self.conf = config
 
         self.time = datetime.now()
-        self._file = open(file_name, "a")
-        self._file.write("--- " + str(self.time)+"\n")
         
-        if self.conf.SIM:
-            self.sim_data_current = {}
         self.current_data = self.get_starting_data()
 
         self.last_pressure = 0
         self.dp = [0]
+        self.ground_pressure = 0
 
-    def __repr__(self):
-        return self.__str__()
-    
-    def __str__(self):
-        self_str = ""
-        data = self.to_dict()
-        return self.format_data(data)
-    
     def format_data(self, data_dict, end="\n"):
         """Format data."""
         data_str = ""
@@ -50,7 +38,7 @@ class Data:
 
     def to_json(self, state, part=0):
         """Return string of data.
-        
+
         part indicates the part of the data to convert.
         0 is all of the data. 
         1 is the main data.
@@ -91,8 +79,6 @@ class Data:
         """Return dict of data."""
         self.current_data["time"] = str(time.time())
         self.current_data["state"] = self.conf.state
-        if self.conf.SIM:
-            return self.sim_data_current
         return self.current_data
 
     def get_starting_data(self):
@@ -102,6 +88,7 @@ class Data:
             "sensors": {
                 "alt": 0,  # meters
                 "pres": 0,  # millibars
+                "dp": 0,  # millibars
                 "hum": 0,  # %
                 "temp": 0,  # F
                 "lat": 0,  # latitude
@@ -111,53 +98,25 @@ class Data:
                 "roll": 0,  # degrees
                 "yaw": 0,  # degrees
                 "compass": 0,  # degrees
-                "acc": {},  # Gs
-                "gyro": {},  # rad/sec
-                "mag": 0,  # microteslas
+                "acc": {
+                    "x": 0, "y": 0, "z": 0
+                },  # Gs
+                "gyro": {
+                    "x": 0, "y": 0, "z": 0
+                },  # rad/sec
+                "mag": {
+                    "x": 0, "y": 0, "z": 0
+                },  # microteslas
             }
         }
 
-    def write_out(self, state):
-        self._file.write(self.to_json(state)+"\n")
-
-    def reset_zero_pressure(self):
-        if self.conf.SIM:
-            self.sim_zero_alt = self.sim_data_current["sensors"]["alt"]
-        else:
-            self.altimeter.set_zero_pressure()
-        return None
-
-    def get_accelerometer_up(self):
-        """Return upward acceleration. [Default=+z]."""
-        if self.conf.SIM:
-            acc = 0
-            if "x" in self.conf.up:
-                acc = self.sim_data_current["sensors"]["acc"]["x"]
-            elif "y" in self.conf.up:
-                acc = self.sim_data_current["sensors"]["acc"]["y"]
-            else:
-                acc = self.sim_data_current["sensors"]["acc"]["z"]
-            if "-" in self.conf.up:
-                return -acc
-        else:
-            acc = 0
-            if "x" in self.conf.up:
-                acc = self.imu.get_accelerometer_raw().x
-            elif "y" in self.conf.up:
-                acc = self.imu.get_accelerometer_raw().y
-            else:
-                acc = self.imu.get_accelerometer_raw().z
-            if "-" in self.conf.up:
-                return -acc
-            return acc
-
-    def add_dp(self, dp, max_count=5):
+    def add_dp(self, dp, max_count=10):
         self.dp.append(dp)
         if len(self.dp) > max_count:
             self.dp = self.dp[1:]
         return None
 
-    def check_dp_gt_val(self, val, count=4):
+    def check_dp_gt_val(self, val, count=8):
         """Check if dp greater than val for a count."""
         for dp in self.dp:
             if dp > val:
@@ -165,10 +124,9 @@ class Data:
 
         if count <= 0:
             return True
-        else:
-            return False
+        return False
 
-    def check_dp_lt_val(self, val, count=4):
+    def check_dp_lt_val(self, val, count=8):
         """Check if dp greater than val for a count."""
         for dp in self.dp:
             if dp < val:
@@ -176,5 +134,12 @@ class Data:
 
         if count <= 0:
             return True
-        else:
-            return False
+        return False
+
+    def __repr__(self):
+        return self.__str__()
+
+    def __str__(self):
+        self_str = ""
+        data = self.to_dict()
+        return self.format_data(data)

@@ -10,20 +10,29 @@ def FileSimulation(conf, data):
     print("FileSimulation Init")
     sim_data = None
 
+    while conf.rocket_state is None:
+        pass
+    print("[FileSimulation.py]: rocket_state defined, continuing")
+
     data_file = open(conf.SIM_FILE, "r")
     lines = data_file.readlines()
     sim_data = [loads(line) for line in lines]
-    data.sim_data_current = sim_data[0]
     sim_data = sim_data[1:]
-    data.sim_zero_alt = data.sim_data_current["sensors"]["alt"]
+    sim_zero_alt = sim_data[0]["sensors"]["alt"]
+    data.ground_pressure = sim_zero_alt
     data_file.close()
+
+    # Set state to arm
+    conf.state = "ARM"
+    conf.rocket_state.activate_hook("arm_start")
+    
     while len(sim_data) > 0:
         sleep(conf.SIM_TD)
         new_data = sim_data[0]
-        new_data["sensors"]["alt"] -= data.sim_zero_alt
+        new_data["sensors"]["alt"] -= sim_zero_alt
         data.add_dp(new_data["sensors"]["pres"] - data.last_pressure)
         data.last_pressure = new_data["sensors"]["pres"]
         sim_data = sim_data[1:]  # Remove first entry
-        data.sim_data_current = new_data
+        data.current_data = new_data
     print("Simulation Over")
     conf.shutdown = True

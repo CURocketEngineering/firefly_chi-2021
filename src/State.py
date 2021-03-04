@@ -1,16 +1,15 @@
 """
 State.py
+========
 Perform actions of the rocket and manage state.
 
-hooks is a dictionary mapping a hook string to a 
+`hooks` is a dictionary mapping a hook string to a 
 list of functions to thread when the hook occurs.
 """
 
 import datetime
 from os import system
-import threading
-
-from src.common.constants import *
+from threading import Thread
 
 class State:
     def __init__(self, conf, data, hooks={}):
@@ -20,32 +19,27 @@ class State:
         
         # Map of state to function
         self.actions = {
-            "HALT": self.halt,
-            "IDLE": self.idle,
-            "ARM": self.arm,
-            "IGNITE": self.ignite,
-            "BURN": self.burn,
-            "COAST": self.coast,
-            "APOGEE": self.apogee,
-            "FALL": self.fall,
-            "EJECT": self.eject,
-            "RECOVER": self.recover,
-            "WAIT": self.wait,
-            "TEST": self.test,
+            "HALT": self.halt,  # Rocket should not do anything
+            "ARM": self.arm,  # Rocket is ready to begin state system
+            "UPWARD": self.upward,  # Rocket is going up
+            "APOGEE": self.apogee,  # Rocket is at apogee
+            "DOWNWARD": self.downward,  # rocket is going down
+            "EJECT": self.eject,  # rocket is at main ejection altitude
+            "RECOVER": self.recover,  # rocket is in recovery state
             "SHUTDOWN": self.shutdown,
             "RESTART": self.restart,
         }
         self.activate_hook("idle_start")
 
-    def act(self):
+    def act(self) -> str:
         """
         Use the correct method for the correct state.
         """
-        self.conf.last_state = self.conf.state
-        self.conf.state = self.actions[self.conf.state]()
-        return self.conf.state
+        self.conf.last_state = self.conf.state  # Update last state
+        self.conf.state = self.actions[self.conf.state]()  # Perform action
+        return self.conf.state  # Return current state
 
-    def activate_hook(self, hook_name):
+    def activate_hook(self, hook_name : str) -> None:
         """
         Activate a hook function.
         """
@@ -53,96 +47,59 @@ class State:
         print(self.hooks)
         for function in self.hooks.get(hook_name, []):
             print("Starting thread")
-            t = threading.Thread(target=function, args=(self.conf,self.data))
+            t = Thread(target=function, args=(self.conf,self.data))
             t.start()
 
-    def halt(self):
-        """Do nothing."""
+    def halt(self) -> str:
+        """Do nothing. A halted rocket shouldn't do anything."""
         return "HALT"
 
-    def idle(self):
+    def arm(self) -> str:
         """
-        Do nothing. 
-        A plugin must be used to bring the rocket out of idle.
+        Wait for launch.
+        System is going up if it is 100 meters in the air and 8/10 of the last
+        dp readings are negative.
         """
-        return "IDLE"
-
-    def arm(self):
-        """Wait for launch. Continue sampling ground pressure."""
-        self.data.reset_zero_pressure()
-
         # Detect if system starts to go up
-        if self.data.check_dp_lt_val(0):
+        distance_above_ground = self.data.to_dict()["sensors"]["alt"]
+        if self.data.check_dp_lt_val(0) and distance_above_ground > 100:
             self.activate_hook("arm_end")
             self.activate_hook("ignite_start")
-            return "IGNITE"
+            return "UPWARD"
         return "ARM"
 
-    def ignite(self):
-        """Move to burn state. Might begin simulation."""
-        self.activate_hook("ignite_end")
-        self.activate_hook("burn_start")
-        return "BURN"
-
-    def burn(self):
-        """Change state if no longer accelerating up."""
-        return "COAST" # TODO, might not be necessary
-        if self.data.check_dp_lt_val(0):
-            self.activate_hook("burn_end")
-            self.activate_hook("coast_start")
-            return "COAST"
-        return "BURN"
-
-    def coast(self):
+    def upward(self):
         """Change state to Use air-stoppers if necessary."""
         if self.data.check_dp_gt_val(0):
             print(f"DP: {self.data.dp}")
             self.activate_hook("coast_end")
             self.activate_hook("apogee_start")
             return "APOGEE"
-        return "COAST"
+        return "UPWARD"
 
     def apogee(self):
         """Eject parachute."""
-        if self.conf.SIM:
-            input(self.data.to_dict()["sensors"]["alt"])
         self.activate_hook("apogee_end")
         self.activate_hook("wait_start")
-        return "WAIT"
+        return "DOWNWARD"
 
-    def wait(self):
+    def downward(self):
         """Wait until correct altitude."""
-        if self.data.to_dict()["sensors"]["alt"] < self.conf.MAIN_ALTITUDE: # TODO test this
+        if self.data.to_dict()["sensors"]["alt"] < self.conf.MAIN_ALTITUDE:
             self.activate_hook("wait_end")
             self.activate_hook("eject_start")
             return "EJECT"
-        return "WAIT"
+        return "DOWNWARD"
 
     def eject(self):
         """Eject other parachute."""
         self.activate_hook("eject_end")
         self.activate_hook("fall_start")
-        return "FALL"
-
-    def fall(self):
-        """Do nothing."""
-        if (
-                self.data.current_data["sensors"]["pres"] -
-                self.data.last_pressure
-        ) < 1:
-            self.activate_hook("fall_end")
-            self.activate_hook("recover_start")
-            return "RECOVER"
-        return "FALL"
-
-    def recover(self):
-        """Display Data to SenseHat."""
         return "RECOVER"
 
-
-    def test(self):
+    def recover(self):
         """Do nothing."""
-        return "TEST"
+        return "RECOVER"
 
     def restart(self):
         """Restart the system."""
@@ -151,43 +108,6 @@ class State:
     def shutdown(self):
         """Shutdown the system."""
         system("shutdown -s")
-
-
-    def eject_parachute(self, parachute):
-        """Eject the parachute."""
-        # Actively wait for apogee or main delay
-        now = datetime.datetime.now()
-        if "MAIN" in parachute.upper():
-            while (
-                    (datetime.datetime.now() - now).total_seconds() < self.conf.MAIN_DELAY
-            ):
-                pass
-        elif "DROGUE" in parachute.upper():
-            while (
-                    (datetime.datetime.now() - now).total_seconds() < self.conf.APOGEE_DELAY
-            ):
-                pass
-
-        # Hold for parachute charge time seconds
-        now = datetime.datetime.now()
-        self.activate_hook("eject_now")
-        '''
-            usb_relay.turnon(parachute, conf)
-            while (
-                    (datetime.datetime.now() - now).total_seconds()
-                   < conf.PARACHUTE_CHARGE_TIME
-            ):
-                pass
-            usb_relay.turnoff(parachute, conf)
-        '''
-        return None
-
-    def __eq__(self, other):
-        if isinstance(other, int):
-            return False
-        if isinstance(other, str):
-            return self.conf.state == other
-        return False
 
     def __str__(self):
         return str(self.conf.state)

@@ -1,6 +1,0 @@
-# States
-[
-    HALT, IDLE, ARM, IGNITE, BURN, 
-    COAST, APOGEE, FALL, EJECT, RECOVER, 
-    WAIT, TEST, SHUTDOWN, RESTART
-] = range(14)

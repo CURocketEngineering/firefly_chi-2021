@@ -8,12 +8,8 @@ from . import Config
 from . import Data
 from . import State
 
-from . import SH_Interface
-from . import Vis
 
 from time import sleep
-
-OUTPUT_FILE = "output.json"
 
 
 class Avionics():
@@ -21,20 +17,19 @@ class Avionics():
 
     def __init__(self):
         # Initialization
-        self.file_name = OUTPUT_FILE
         self.conf = Config.Config( # Configuration data
-            "config/config.json", "IDLE"
+            "config/config.json", "HALT"
         )
         self.data = Data.Data( # Avionics data
-            self.file_name,
             self.conf
         )
+        self.conf.add_data(self.data)
         self.rocket_state = State.State(
             self.conf,
             self.data,
             hooks=self.conf.plugins
         )
-        self.conf.add_data(self.data)
+        self.conf.add_rocket_state(self.rocket_state)
 
     def main_process(self):
         '''
@@ -42,19 +37,15 @@ class Avionics():
         '''
         while (not self.conf.shutdown) or (self.conf.FIDI):
             if self.conf.DEBUG:
-                print(f"STATE: {self.rocket_state}\t{self.data.to_dict()['sensors']['pres']}\r", end="")
-                #print(self.data)
+                rdata = self.data.to_dict()
+                print(f"{self.rocket_state}:  {rdata['sensors']['pres']}  {rdata['sensors']['alt']}\r", end="")
 
             if self.conf.SIM:
-                if self.conf.state == "IDLE":
-                    self.conf.state = "ARM"
-                    self.rocket_state.activate_hook("arm_start")
                 if self.conf.last_state != self.conf.state:
-                    print(f"STATE CHANGE: {self.conf.state}")
-                    sleep(1)
+                    print(f"\nSTATE CHANGE: {self.conf.state}")
                 if self.conf.state in ["APOGEE"]:
-                    print("PAUSE BUFFER")
-                    sleep(1)
+                    rdata = self.data.to_dict()
+                    print("\nApogee: {rdata['sensors']['alt']}")
 
             # Make Decisions
             self.rocket_state.act()

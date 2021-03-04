@@ -63,6 +63,9 @@ class Config:
         # data object
         self.data = None
 
+        # state object
+        self.rocket_state = None
+
     def setup_hooks(self, hooks):
         '''
         Return the dictionary of hooks to plugin names as a 
@@ -84,3 +87,9 @@ class Config:
         Add link to data object.
         """
         self.data = data
+
+    def add_rocket_state(self, rs):
+        """
+        Add link to rocket state.
+        """
+        self.rocket_state = rs
