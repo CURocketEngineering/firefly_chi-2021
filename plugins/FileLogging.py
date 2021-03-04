@@ -27,7 +27,7 @@ def FileLogger(conf, data):
             files = []
             for i in range(REDUNDANCY_COUNT):
                 modifier = str(i) if i > 0 else ""
-                files.append(open(f"output{modifier}.json", "w"))
+                files.append(open(f"records/output{modifier}.json", "w"))
             # Log
             for i in range(int(FILECLOSING_DT/FILELOGGING_DT)):
                 d = dumps(data.to_dict())

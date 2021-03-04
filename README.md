@@ -21,7 +21,7 @@ higher-order files and understand what they actually do. This also implies
 _documentation_.
 
 ### Current Status
-The current status is `Golden Golden 2`. 
+The current status is `Golden Golden 3`.
 
 ### Current Objectives
 
@@ -30,10 +30,17 @@ The current status is `Golden Golden 2`.
 | System Integrity & Unit Tests    | Testing    | Progress    | High     |
 | Kalman Filter                    | Simulation | Progress    | Low      |
 
+#### TODO
+Remove from this list if the commit satisfies the requirement.
+* [ ] Unit-tests should evaluate every core function at least once
+  * [ ] A command-line option for running unit tests
+* [ ] Write more documentation
+* [ ] Finish simulation for custom kalman filter
+* [ ] Rocket should recover itself if short happens restarting the raspberry pi
+* [ ] GPS should record all possible measurements
+
 ## Contributing
 Contributors who are new to github can read the 
 [tutorial](other/documentation/tutorial/README.md).
 Documentation can be read at
 [simple documentation](other/documentation/README.md).
-View [TODO](TODO.md) for a specific list of current
-objectives.

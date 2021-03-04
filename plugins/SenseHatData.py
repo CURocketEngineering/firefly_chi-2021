@@ -22,7 +22,8 @@ def get_altitude(zero_pressure, new_pressure, new_temperature):
         T = new_temperature + 273.15
         # z = ln(P/P0) * (-RT/Mg)
         return -log(p/p0) * R * T / (M * g)
-    except:
+    except Exception as e:
+        print("[SenseHatData.py] get_altitude:", e)
         return 0
 
 def SenseHatData(conf, data):
@@ -30,13 +31,17 @@ def SenseHatData(conf, data):
     sense.clear()
     zero_pressure = sense.get_pressure()
     while not conf.shutdown:
+        # Adjust ground pressure in case of anomaly
+        if conf.state == "HALT":
+            zero_pressure = zero_pressure*.9 + sense.get_pressure()*.1
         # Altimeter
+        current_pressure = sense.get_pressure()
         data["sensors"]["alt"] = get_altitude(zero_pressure, sense.get_pressure(), sense.get_temperature())  # meters
         data["sensors"]["hum"] = sense.get_humidity()  # %
         data["sensors"]["temp"] = (sense.get_temperature() * 9 / 5) + 32  # F
-        data["sensors"]["pres"] = sense.get_pressure()
-        conf.data.add_dp(sense.get_pressure() - conf.data.last_pressure)
-        conf.data.last_pressure = sense.get_pressure()
+        data["sensors"]["pres"] = current_pressure
+        conf.data.add_dp(current_pressure - conf.data.last_pressure)
+        conf.data.last_pressure = current_pressure
         
         # IMU
         data["sensors"]["acc"] = sense.get_acclerometer_raw()  # Gs

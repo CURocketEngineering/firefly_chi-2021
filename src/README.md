@@ -1,14 +1,16 @@
 # Modules
 Simple higher-level modules and logic.
 
-## `Actions.py`
-A set of functions that the rocket can use that are state-dependent. 
-
-## `Comm.py`
-Communication manager for the XBEE ZIGBEE protocol. 
+## `Avionics.py`
+A single point of accessing controlling the rocket. If another interface is
+needed for a rocket, its design can be based off of `Avionics.py`. `Avionics.py`
+also contains the *main loop* for running the rocket.
 
 ## `Config.py`
-Configuration parser for the rocket. 
+Configuration parser and handler for the rocket. 
 
-## `DastaStruct.py`
-Datastructure and algorithms using the Raspberry Pi Sense Hat.
+## `State.py`
+A system for changing state and activating any state-dependent hooks.
+
+## `Data.py`
+Data handling for the rocket. Can be interacted with to get and set data.
