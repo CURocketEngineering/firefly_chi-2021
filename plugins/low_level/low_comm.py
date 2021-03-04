@@ -17,14 +17,12 @@ class Antenna:
         self.verbose = verbose
         if port == "":
             port = self.find_port()
-        print(port)
         self.port = port
         self.verbose_print(f"Port: {self.port}")
 
         self.last_time_sent = 0
 
         if self.port != "" and remote_address != "":
-            print("GOT HERE")
             self.device = XBeeDevice(self.port, 9600)
             self.active = True
             self.has_remote = True
@@ -38,7 +36,6 @@ class Antenna:
                     remote_address
                 ))
                 self.remote_device = RemoteXBeeDevice(self.device, add_64)
-                print("Has remote device")
             except Exception as e:
                 self.has_remote = False
                 print("Error on remote device: ", e)
@@ -80,8 +77,6 @@ class Antenna:
                     return None
             self.last_time_sent = time
 
-        print("SENDING")
-        self.verbose_print((self.active, data))
         if self.active:
             try:
                 if type(data) == dict:
@@ -97,7 +92,6 @@ class Antenna:
                         f"{parent}_{str(data_key)}" : data
                     }
                     to_send = dumps(send_data).encode()
-                    self.verbose_print(to_send)
                     self.device.send_data_async(
                         self.remote_device,
                         to_send
@@ -110,11 +104,13 @@ class Antenna:
         if self.verbose:
             print(message)
 
-    def read_time(self, time):
+    def read_time(self, time=None):
         if not self.active:
             return "{}"
         try:
             d = self.device.read_data(time)
+            if d is None:
+                return "{}"
             return d.data.decode()
         except Exception as e:
             print(f"[low_level/low_comm.py]: {e}")

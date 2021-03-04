@@ -8,7 +8,7 @@ except Exception as e:
 
 from time import sleep
 
-HOLD_TIME = 1
+HOLD_TIME = 2
 
 
 def RelayWatcher(conf, data):
@@ -38,6 +38,7 @@ def Relay1(conf, data):
 def Relay2(conf, data):
     if not can_use_relay:
         return
+    rel = relay.Relay(verbose=True)
     sleep(conf.MAIN_DELAY)
     rel.turnon(2, None)
     sleep(HOLD_TIME)
