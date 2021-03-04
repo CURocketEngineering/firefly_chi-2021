@@ -21,14 +21,14 @@ higher-order files and understand what they actually do. This also implies
 _documentation_.
 
 ### Current Status
-The current status is `Golden Golden 2`. 
+The current status is `Golden Golden 3`.
 
 ### Current Objectives
 
 | Objective                        | Category   | Status      | Priority |
 | ---                              | --:        | --:         | --:      |
 | System Integrity & Unit Tests    | Testing    | Progress    | High     |
-| Kalman Filter                    | Simulation | Progress    | High     |
+| Kalman Filter                    | Simulation | Progress    | Low      |
 
 #### TODO
 Remove from this list if the commit satisfies the requirement.
@@ -44,5 +44,3 @@ Contributors who are new to github can read the
 [tutorial](other/documentation/tutorial/README.md).
 Documentation can be read at
 [simple documentation](other/documentation/README.md).
-View [TODO](TODO.md) for a specific list of current
-objectives.
