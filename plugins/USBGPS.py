@@ -10,13 +10,13 @@ import serial.tools.list_ports as prtlst
 class GPS:
     def __init__(self, port="", max_pass=8, verbose=False):
         self.verbose = verbose
-        if port is "":
+        if port == "":
             self.port = self.find_port()
         else:
             self.port = port
             
         self.has_gps = True
-        if self.port is "":
+        if self.port == "":
             self.ser = None
             self.has_gps = False
         else:
