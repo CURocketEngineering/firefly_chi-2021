@@ -16,12 +16,12 @@ class Comm:
             remote_address=conf.REMOTE_XBEE_ID
         )
 
-    def read_comm(self, rocket_state):
+    def read_comm(self, read_time=None):
         """
         Read communication for meta-state changes.
         TODO
         """
-        return rocket_state
+        return self.antenna.read_time(read_time)
 
     def send(self, data, skip_time=0.25, as_json=False):
         """Async send data to specific XBee network."""
@@ -38,16 +38,16 @@ def loop(conf, data):
     ant = Comm(conf)
     while True:
         ant.send(data.to_dict())
-        data = ant.read_time(0.1).data.decode()
-        if data != "":
-            print(f"\nIncoming Data: {data}")
-        if data == "a":
+        incoming = ant.read_comm()
+        if incoming not in ["", "{}"]:
+            print(f"\nIncoming Data: {incoming}")
+        if incoming == "a":
             print("\nGot command to ARM!")
-        if data == "s":
+        if incoming == "s":
             print("\nGot command to SIMULATE!")
-        if data == "h":
+        if incoming == "h":
             print("\nGot command to HALT!")
-        if data == "e1":
+        if incoming == "e1":
             print("\nGot command to EJECT_APOGEE!")
-        if data == "e2":
+        if incoming == "e2":
             print("\nGot command to EJECT_MAIN!")
