@@ -1,0 +1,35 @@
+# Comment
+name: "Default Config"
+
+# DEBUG decides to print information
+DEBUG: true
+
+# File where simulation data is located
+sim_file: "other/data/sim_irec2019.json"
+
+# Delay after apogee before deploying 1st parachute
+apogee_delay: 0.0
+
+# Delay after main before deploying 2nd parachute
+main_delay: 0.0
+
+# Altitude at which to deploy 2nd parachute
+main_altitude: 1500.0
+
+# ID of base station Xbee to communicate with
+remote_xbee_id: "0013A2004195721E"
+# remote_xbee_id: "0013A20041957215"
+
+# FIDI
+FIDI: false
+
+# Plugins start certain functions at different times
+plugins:
+  halt_start:
+    - "FileSimulation"
+    - "Xbee"
+    - "FileLogging"
+  apogee_start:
+    - "USBRelay1"
+  eject_start:
+    - "USBRelay2"

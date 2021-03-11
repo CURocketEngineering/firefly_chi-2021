@@ -1,22 +1,32 @@
-"""Config for the rocket."""
+"""
+Config.py
+=========
+Config for the rocket.
+"""
 
-from json import load
+from json import load as jload
+from yaml import load as yload
+from yaml import Loader as yLoader
+
 
 from plugins import plugins
 
 
 class Config:
-    def __init__(self, file_name, current_state):
+    def __init__(self, file_name="config/config.yaml", current_state="HALT"):
         """Read initialization values into variables."""
         self.shutdown = False
-        if isinstance(file_name, str):
-            file_pointer = open(file_name, "r")
-            conf_file = load(file_pointer)
-            file_pointer.close()
-        elif isinstance(file_name, dict):
-            conf_file = file_name
+        self.rocket_state = None
+        self.data = None
+
+        conf_file = {}
+        stream = open(file_name, "r")
+        if file_name.endswith(".json") or file_name.endswith(".jsn"):
+            conf_file = jload(stream)
         else:
-            raise ValueError("Argument file_name is of an invalid type")
+            # Default is yaml
+            conf_file = yload(stream, Loader=yLoader)
+        stream.close()
 
         # State
         self.state = current_state
@@ -24,30 +34,23 @@ class Config:
 
         # For use in debugging program
         self.DEBUG = conf_file.get("DEBUG", False)
-        self.TEST = conf_file.get("test", False)
-        self.SIM = conf_file.get("sim", False)
         self.SIM_FILE = conf_file.get("sim_file", "")
-
         self.SIM_TD = conf_file.get("sim_td", 0.1)
 
         # Seconds to push charge to e-match
-        self.PARACHUTE_CHARGE_TIME = conf_file.get("parachute_charge_time", 0.5)
+        self.PARACHUTE_CHARGE_TIME = conf_file.get("parachute_charge_time", 2)
 
         # Seconds to wait after apogee before deploying parachute
-        self.APOGEE_DELAY = conf_file.get("apogee_delay", 0)
-
-        # Main parachute height in ft
-        self.MAIN_ALTITUDE = conf_file.get("main_altitude", 1000)
+        self.APOGEE_DELAY = conf_file.get("apogee_delay", 0.0)
 
         # Seconds to wait after reaching parachute
         # height before deploying parachute
         self.MAIN_DELAY = conf_file.get("main_delay", 0)
 
-        # Up direction on rocket
-        self.up = conf_file.get("up", "+z")
+        # Main parachute height in ft
+        self.MAIN_ALTITUDE = conf_file.get("main_altitude", 1000)
 
         # Communications
-        self.COMM = conf_file.get("comm", True)
         self.REMOTE_XBEE_ID = conf_file.get("remote_xbee_id", "TEMP")
 
         # Threads should die if set to True
@@ -60,17 +63,12 @@ class Config:
         # matter if true of false
         self.FIDI = conf_file.get("FIDI", False)
 
-        # data object
-        self.data = None
-
-        # state object
-        self.rocket_state = None
 
     def setup_hooks(self, hooks):
-        '''
-        Return the dictionary of hooks to plugin names as a 
+        """
+        Return the dictionary of hooks to plugin names as a
         dictionary of hooks to plugin functions.
-        '''
+        """
         assert isinstance(hooks, dict), "Hooks must be a dictionary"
         new_hooks = {}
         for hook in hooks:
@@ -82,15 +80,3 @@ class Config:
                 else:
                     print(f"[Config.py]: hook {hook} is not available")
         return new_hooks
-
-    def add_data(self, data):
-        """
-        Add link to data object.
-        """
-        self.data = data
-
-    def add_rocket_state(self, rs):
-        """
-        Add link to rocket state.
-        """
-        self.rocket_state = rs
