@@ -37,10 +37,12 @@ def FileSimulation(conf, data):
         data.current_data = new_data
 
         # Don't continue in HALT
+        was_halted = False
         while conf.state == "HALT":
-            pass
+            was_halted = True
+        if was_halted:
+            conf.state = last_state
         last_state = conf.state if conf.state != "HALT" else last_state
-        conf.state = last_state  # Restore after HALT
         
     print("Simulation Over")
     conf.shutdown = True

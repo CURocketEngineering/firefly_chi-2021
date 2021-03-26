@@ -34,6 +34,7 @@ def SenseHatData(conf, data):
         # Adjust ground pressure in case of anomaly
         if conf.state == "HALT":
             zero_pressure = zero_pressure*.9 + sense.get_pressure()*.1
+
         # Altimeter
         current_pressure = sense.get_pressure()
         data["sensors"]["alt"] = get_altitude(zero_pressure, sense.get_pressure(), sense.get_temperature())  # meters

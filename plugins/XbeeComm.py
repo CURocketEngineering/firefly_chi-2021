@@ -2,6 +2,10 @@
 
 from time import sleep
 
+
+from plugins import USBRelay
+
+
 can_use_comm = True
 try:
     from .low_level import low_comm
@@ -46,22 +50,27 @@ def loop(conf, data):
         # Read incoming
         incoming = ant.read_comm()
         command = ""
-        if command != "":
+        if incoming != "":
             try:
                 info = loads(incoming)
                 if info.get("key", "") == SECRET_KEY:
                     command = info.get("command", "")
             except Exception as e:
+                print("ERROR!!!!", e)
                 pass
         if command not in ["", "{}"]:
-            print(f"\nIncoming Data: {incoming}")
+            print(f"\nIncoming Data: <{incoming}> <{command}>\n")
         if command == "a":
             print("\nGot command to ARM!")
+            conf.state = "ARM"
         if command == "s":
             print("\nGot command to SIMULATE!")
         if command == "h":
             print("\nGot command to HALT!")
+            conf.state = "HALT"
         if command == "e1":
             print("\nGot command to EJECT_APOGEE!")
+            USBRelay.Relay1(conf, data)
         if command == "e2":
             print("\nGot command to EJECT_MAIN!")
+            USBRelay.Relay2(conf, data)
