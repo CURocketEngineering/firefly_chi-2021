@@ -32,7 +32,7 @@ def FileLogger(conf, data):
             # Open files
             files = []
             for i in range(REDUNDANCY_COUNT):
-                modifier = str(i) if i > 0 else ""
+                modifier = str(i+1) if i > 0 else ""
                 files.append(open(f"{FILE_DIRECTORY}/output{modifier}.json", "a"))
             # Log
             for i in range(int(FILECLOSING_DT/FILELOGGING_DT)):
@@ -45,7 +45,6 @@ def FileLogger(conf, data):
             # Close files
             for f in files:
                 f.close()
-                print("Closed")
     except Exception as e:
         for f in files:
             f.close()
