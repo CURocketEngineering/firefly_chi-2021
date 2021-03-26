@@ -9,6 +9,9 @@ except Exception as e:
     print("[XbeeComm]:", e)
     can_use_comm = False
 
+SECRET_KEY = "CURE"
+from json import loads
+    
 class Comm:
     def __init__(self, conf):
         self.conf = conf
@@ -37,17 +40,28 @@ def loop(conf, data):
         return
     ant = Comm(conf)
     while True:
+        # Send data
         ant.send(data.to_dict())
+
+        # Read incoming
         incoming = ant.read_comm()
-        if incoming not in ["", "{}"]:
+        command = ""
+        if command != "":
+            try:
+                info = loads(incoming)
+                if info.get("key", "") == SECRET_KEY:
+                    command = info.get("command", "")
+            except Exception as e:
+                pass
+        if command not in ["", "{}"]:
             print(f"\nIncoming Data: {incoming}")
-        if incoming == "a":
+        if command == "a":
             print("\nGot command to ARM!")
-        if incoming == "s":
+        if command == "s":
             print("\nGot command to SIMULATE!")
-        if incoming == "h":
+        if command == "h":
             print("\nGot command to HALT!")
-        if incoming == "e1":
+        if command == "e1":
             print("\nGot command to EJECT_APOGEE!")
-        if incoming == "e2":
+        if command == "e2":
             print("\nGot command to EJECT_MAIN!")
