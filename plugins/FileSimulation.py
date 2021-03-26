@@ -24,6 +24,7 @@ def FileSimulation(conf, data):
 
     # Set state to arm
     conf.state = "ARM"
+    last_state = "ARM"
     conf.rocket_state.activate_hook("arm_start")
     
     while len(sim_data) > 0:
@@ -34,5 +35,12 @@ def FileSimulation(conf, data):
         data.last_pressure = new_data["sensors"]["pres"]
         sim_data = sim_data[1:]  # Remove first entry
         data.current_data = new_data
+
+        # Don't continue in HALT
+        while conf.state == "HALT":
+            pass
+        last_state = conf.state if conf.state != "HALT" else last_state
+        conf.state = last_state  # Restore after HALT
+        
     print("Simulation Over")
     conf.shutdown = True
