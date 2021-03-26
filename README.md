@@ -21,7 +21,7 @@ higher-order files and understand what they actually do. This also implies
 _documentation_.
 
 ### Current Status
-The current status is `Golden Golden 3`.
+The current status is `Golden Golden 4`.
 
 ### Current Objectives
 
