@@ -1,5 +1,4 @@
-# Comment
-name: "Default Config"
+name: "IREC 2021 Config"
 
 # DEBUG decides to print information
 DEBUG: true
@@ -14,11 +13,10 @@ apogee_delay: 0.0
 main_delay: 0.0
 
 # Altitude at which to deploy 2nd parachute
-main_altitude: 1500.0
+main_altitude: 381  # 381 m is 1250 feet
 
 # ID of base station Xbee to communicate with
 remote_xbee_id: "0013A2004195721E"
-# remote_xbee_id: "0013A20041957215"
 
 # FIDI
 FIDI: false
@@ -26,7 +24,8 @@ FIDI: false
 # Plugins start certain functions at different times
 plugins:
   halt_start:
-    - "FileSimulation"
+    - "SenseHatData"
+    - "USBGPS"
     - "XbeeComm"
     - "FileLogging"
   apogee_start:

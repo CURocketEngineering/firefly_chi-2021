@@ -15,7 +15,7 @@ UNIMPLEMENTED = lambda conf, data: None
 
 plugins = {
     "FileLogging": FileLogging.FileLogger,
-    "Xbee": XbeeComm.loop,
+    "XbeeComm": XbeeComm.loop,
     "FileSimulation": FileSimulation.FileSimulation,
     "USBGPS": USBGPS.USBGPS,
     "SenseHatData": SenseHatData.SenseHatData,
