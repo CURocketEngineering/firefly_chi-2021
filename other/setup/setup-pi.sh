@@ -27,6 +27,7 @@ sudo make install_py
 pip3 install digi-xbee
 pip3 install psutil
 pip3 install filterpy
+pip3 install pyyaml
 
 
 cd $wd
