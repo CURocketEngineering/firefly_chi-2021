@@ -10,6 +10,7 @@ from . import USBGPS
 from . import XbeeComm
 from . import FileLogging
 from . import USBRelay
+from . import UART
 
 UNIMPLEMENTED = lambda conf, data: None
 
@@ -22,4 +23,5 @@ plugins = {
     "USBRelayWatcher": USBRelay.RelayWatcher,
     "USBRelay1": USBRelay.Relay1,
     "USBRelay2": USBRelay.Relay2,
+    "UART": UART.uart,
 }
