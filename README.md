@@ -34,7 +34,6 @@ The current status is `Golden Golden 4`.
 Remove from this list if the commit satisfies the requirement.
 * [ ] Unit-tests should evaluate every core function at least once
   * [ ] A command-line option for running unit tests
-* [ ] Write more documentation
 * [ ] Finish simulation for custom kalman filter
 * [ ] Rocket should recover itself if short happens restarting the raspberry pi
 * [ ] GPS should record all possible measurements
@@ -42,5 +41,5 @@ Remove from this list if the commit satisfies the requirement.
 ## Contributing
 Contributors who are new to github can read the 
 [tutorial](other/documentation/tutorial/README.md).
-Documentation can be read at
+Documentation for developing and usage guide can be read at
 [simple documentation](other/documentation/README.md).

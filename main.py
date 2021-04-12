@@ -1,6 +1,6 @@
-#!/bin/python
+#!/usr/bin/env python3
 '''
-Run the main avionics process using config/config.json.
+Run the main avionics process using `config/config.yaml`.
 '''
 
 from src.Avionics import Avionics
