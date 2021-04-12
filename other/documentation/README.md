@@ -87,7 +87,7 @@ the system starts. They are executed when the system reaches a state where a
 execution in the format `<state_name>_<time>`. For example: `halt_start`,
 `recover_start`, `upward_end`, and `eject_end`.
 #### Creating a new plugin
-Plugins can be written like any other python file. Simly define a function
+Plugins can be written like any other python file. Simply define a function
 inside a new file in `plugins` that accepts two arguments: `conf` and `dataobj`.
 For example:
 ```python3

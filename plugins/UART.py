@@ -16,7 +16,7 @@ def uart(conf, dataobj):
             rpi_data["sensors"]["uart_info"] = {}
             rpi_data["sensors"]["uart_info"]["time"] = elements[0]
             rpi_data["sensors"]["uart_info"]["2"] = elements[0] 
-    	    print(line)
+            print(line)
         else:
-	    ser.write(b"Hello from Raspberry Pi\n")
-	    break
+            ser.write(b"Hello from Raspberry Pi\n")
+            break
