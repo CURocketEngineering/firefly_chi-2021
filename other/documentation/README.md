@@ -113,7 +113,7 @@ plugins:
     - "FileSimulation"
     - "FileLogging"
   apogee_end:
-	- "TestPlugin"
+    - "TestPlugin"
   recover_start:
     - "TestPlugin"
 ```
