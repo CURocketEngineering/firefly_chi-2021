@@ -1,13 +1,20 @@
-'''
-UART.py
-'''
+"""
+ActiveAero.py
+=============
+Incomplete plugin for connecting the active aero system to firefly chi.
+"""
 import serial
 
-def uart(conf, dataobj):
+def active_aero(conf, dataobj):
+    """
+    Run the loop for managing active aero UART.
+    """
     ser = serial.Serial('/dev/ttyS0', 9600, timeout=5)  # AMA0?
+    # FYI: If you use another medium to connect systems you may need to see
+    # the code for reading USBs in the other plugins (XBee and USBGPS)
     line = "1"
     rpi_data = dataobj.current_data  # dictionary of data
-    # Add data to sensor
+    # Add data to sensors
     rpi_data["sensors"]["uart_code"] = "AABB"
     while True and not conf.shutdown:
         if line != "end":

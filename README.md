@@ -4,7 +4,8 @@
 
 A Python implementation of similar-functioning avionics code designed to be
 run on the avionics bay. Originally designed for the 2019-2020 Clemson
-University Rocket Engineering year.
+University Rocket Engineering year. The releases are considered functionally
+complete.
 
 This software suite is designed to work with a Raspberry Pi and Sense-Hat
 with other specific components specified in the 
@@ -19,9 +20,6 @@ the software and so each is easily understood and independent.
 3. **Be easy**. Everyone who's written hello world should be able to read the
 higher-order files and understand what they actually do. This also implies 
 _documentation_.
-
-### Current Status
-The current status is `Golden Golden 4`.
 
 ### Current Objectives
 
