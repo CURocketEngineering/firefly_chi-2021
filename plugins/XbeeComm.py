@@ -26,7 +26,6 @@ class Comm:
     def read_comm(self, read_time=None):
         """
         Read communication for meta-state changes.
-        TODO
         """
         return self.antenna.read_time(read_time)
 
