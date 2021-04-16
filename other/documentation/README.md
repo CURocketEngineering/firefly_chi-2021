@@ -100,7 +100,7 @@ def test_plugin(conf, dataobj):
 is an object instance of the `src/Data.py` `Data` class.
 
 To make the plugin callable, you must edit `plugins/__init__.py`. First, import
-the correct file with something like `from . import test_plugin_file.py`.
+the correct file with something like `from . import test_plugin_file`.
 Second, add the name of the plugin and the function to the `plugins` dictionary.
 For instance, `"TestPlugin": test_plugin_file.test_plugin,`. 
 #### Calling plugins
