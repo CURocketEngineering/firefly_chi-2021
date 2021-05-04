@@ -3,7 +3,7 @@ Depending on your level of familiarity with the system, these summaries should
 provide more insight into what the system does and how the system works.
 
 ## Basic Summary
-Firefly χ is a student researched and developed flight system for rocket used
+Firefly χ is a student researched and developed flight system for rockets used
 by Clemson University Rocket Engineering (CURE). At its core, the system monitors 
 the state of the rocket (HALTed, ARMed for takeoff, going UPWARD, at APOGEE, 
 DOWNWARD, second EJECtion, and during RECOVERy) and handles the data (altimeter, 
